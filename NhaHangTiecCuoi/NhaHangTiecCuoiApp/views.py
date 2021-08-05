@@ -6,5 +6,5 @@ from django.http import HttpResponse
 
 def index(request):
     return render(request, template_name='index.html', context={
-        'name': 'Uyên Nguyễn'
+        'name': 'Trang chủ'
     })
