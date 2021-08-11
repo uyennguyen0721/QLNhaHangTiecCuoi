@@ -31,6 +31,7 @@ class WeddingLobby(models.Model):
         db_table = 'wedding_lobby'
 
     name = models.CharField(max_length=100, null=False, unique=True)
+    image = models.ImageField(upload_to='lobby', null=True)
     location = models.IntegerField(null=False)
     capacity = models.IntegerField(null=False)
 
@@ -54,6 +55,25 @@ class WeddingLobbyPrice(models.Model):
     wedding_lobby = models.ForeignKey(WeddingLobby, on_delete=models.CASCADE)
 
 
+class ServiceType(models.Model):
+    class Meta:
+        db_table = 'service_type'
+
+    class EventType(models.TextChoices):
+        WEDDING = 1, _('Wedding')
+        CONFERENCE = 2, _('Conference')
+
+    name = models.CharField(max_length=100, null=False, unique=True)
+    event_type = models.IntegerField(choices=EventType.choices)
+
+
+class FoodType(models.Model):
+    class Meta:
+        db_table = 'food_type'
+
+    name = models.CharField(max_length=100, null=False, unique=True)
+
+
 class BaseModel(models.Model):
     class Meta:
         abstract = True
@@ -70,10 +90,15 @@ class MenuDrink(BaseModel):
     class Meta:
         db_table = 'menu_drink'
 
+    image = models.ImageField(upload_to='drink', null=True)
+
 
 class Service(BaseModel):
     class Meta:
         db_table = 'service'
+
+    image = models.ImageField(upload_to='service', null=True)
+    service_type = models.ForeignKey(ServiceType, on_delete=models.SET_NULL, null=True)
 
 
 class MenuFood(BaseModel):
@@ -81,7 +106,10 @@ class MenuFood(BaseModel):
         db_table = 'menu_food'
 
     description = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to='food', null=True)
     is_vegetarian = models.BooleanField(null=False)
+
+    food_type = models.ForeignKey(FoodType, on_delete=models.SET_NULL, null=True)
 
 
 class PaymentMethod(models.Model):

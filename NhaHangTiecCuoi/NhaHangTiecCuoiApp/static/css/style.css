@@ -143,6 +143,16 @@ a:focus {
     background: #f8f9fa;
 }
 
+#signup {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ffffff;
+}
+
+#signup:hover {
+    border-color: #fbaf32;
+}
+
 @media (min-width: 992px) {
     .navbar {
         position: absolute;
