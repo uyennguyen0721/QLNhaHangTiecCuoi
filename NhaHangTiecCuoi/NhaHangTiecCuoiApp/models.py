@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 from django.db.models import FloatField
-from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
@@ -12,7 +11,7 @@ class User(AbstractUser):
 
     phone = models.CharField(max_length=50, null=False)
     address = models.CharField(max_length=100, null=False)
-    avatar = models.ImageField(upload_to='avatar/%Y/%m')
+    avatar = models.ImageField(upload_to='img/avatar/%Y/%m')
 
 
 class Feedback(models.Model):
@@ -31,9 +30,10 @@ class WeddingLobby(models.Model):
         db_table = 'wedding_lobby'
 
     name = models.CharField(max_length=100, null=False, unique=True)
-    image = models.ImageField(upload_to='lobby', null=True)
+    image = models.ImageField(upload_to='img/lobby', null=True)
     location = models.IntegerField(null=False)
     capacity = models.IntegerField(null=False)
+    description = models.TextField(null=True)
 
     def __str__(self):
         return self.name
@@ -43,12 +43,17 @@ class WeddingLobbyPrice(models.Model):
     class Meta:
         db_table = 'wedding_lobby_price'
 
-    class Time(models.TextChoices):
-        MORNING = 1, _('Morning')
-        NOON = 2, _('Noon')
-        EVENING = 3, _('Evening')
+    MORNING = 1
+    NOON = 2
+    EVENING = 3
 
-    time = models.IntegerField(choices=Time.choices)
+    TIME_CHOICES = [
+        (MORNING, 'Morning'),
+        (NOON, 'Noon'),
+        (EVENING, 'Evening'),
+    ]
+
+    time = models.IntegerField(choices=TIME_CHOICES)
     is_weekend = models.BooleanField(null=False)
     price = models.FloatField(null=False)
 
@@ -59,12 +64,18 @@ class ServiceType(models.Model):
     class Meta:
         db_table = 'service_type'
 
-    class EventType(models.TextChoices):
-        WEDDING = 1, _('Wedding')
-        CONFERENCE = 2, _('Conference')
+    WEDDING = 1
+    CONFERENCE = 2
+    BIRTHDAY = 3
+
+    EVENT_CHOICES = [
+        (WEDDING, 'Wedding'),
+        (CONFERENCE, 'Conference'),
+        (BIRTHDAY, 'Birthday'),
+    ]
 
     name = models.CharField(max_length=100, null=False, unique=True)
-    event_type = models.IntegerField(choices=EventType.choices)
+    event_type = models.IntegerField(choices=EVENT_CHOICES)
 
 
 class FoodType(models.Model):
@@ -90,14 +101,16 @@ class MenuDrink(BaseModel):
     class Meta:
         db_table = 'menu_drink'
 
-    image = models.ImageField(upload_to='drink', null=True)
+    image = models.ImageField(upload_to='img/drink', null=True)
+    unit = models.CharField(max_length=50, null=True)
 
 
 class Service(BaseModel):
     class Meta:
         db_table = 'service'
 
-    image = models.ImageField(upload_to='service', null=True)
+    image = models.ImageField(upload_to='img/service', null=True)
+
     service_type = models.ForeignKey(ServiceType, on_delete=models.SET_NULL, null=True)
 
 
@@ -106,7 +119,7 @@ class MenuFood(BaseModel):
         db_table = 'menu_food'
 
     description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to='food', null=True)
+    image = models.ImageField(upload_to='img/food', null=True)
     is_vegetarian = models.BooleanField(null=False)
 
     food_type = models.ForeignKey(FoodType, on_delete=models.SET_NULL, null=True)
@@ -137,5 +150,16 @@ class Invoice(models.Model):
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, null=True)
 
     foods = models.ManyToManyField(MenuFood, related_name="invoice_foods", blank=True, null=True)
-    drinks = models.ManyToManyField(MenuDrink, related_name="invoice_drinks", blank=True, null=True)
+    drinks = models.ManyToManyField(MenuDrink, related_name="invoice_drinks", blank=True, null=True, through="DrinkBillDetail")
     services = models.ManyToManyField(Service, related_name="invoice_services", blank=True, null=True)
+
+
+class DrinkBillDetail(models.Model): #model trung gian
+    class Meta:
+        db_table = "drink_bill_detail"
+    unit_price = models.FloatField(null=False)
+    quantity = models.IntegerField(null=False)
+    unit = models.CharField(max_length=50, null=False)
+
+    menu_drink = models.ForeignKey(MenuDrink, on_delete=models.SET_NULL, null=True)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
