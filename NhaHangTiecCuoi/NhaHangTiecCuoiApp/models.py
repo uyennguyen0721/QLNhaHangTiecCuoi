@@ -22,7 +22,7 @@ class Feedback(models.Model):
     content = models.TextField(null=True, blank=True)
     rating = models.IntegerField(null=True)
 
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, related_name='feedbacks', on_delete=models.SET_NULL, null=True)
 
 
 class WeddingLobby(models.Model):
@@ -57,7 +57,7 @@ class WeddingLobbyPrice(models.Model):
     is_weekend = models.BooleanField(null=False)
     price = models.FloatField(null=False)
 
-    wedding_lobby = models.ForeignKey(WeddingLobby, on_delete=models.CASCADE)
+    wedding_lobby = models.ForeignKey(WeddingLobby, related_name='wedding_lobby_prices', on_delete=models.CASCADE)
 
 
 class ServiceType(models.Model):
@@ -111,7 +111,7 @@ class Service(BaseModel):
 
     image = models.ImageField(upload_to='img/service', null=True)
 
-    service_type = models.ForeignKey(ServiceType, on_delete=models.SET_NULL, null=True)
+    service_type = models.ForeignKey(ServiceType, related_name='services', on_delete=models.SET_NULL, null=True)
 
 
 class MenuFood(BaseModel):
@@ -122,7 +122,7 @@ class MenuFood(BaseModel):
     image = models.ImageField(upload_to='img/food', null=True)
     is_vegetarian = models.BooleanField(null=False)
 
-    food_type = models.ForeignKey(FoodType, on_delete=models.SET_NULL, null=True)
+    food_type = models.ForeignKey(FoodType, related_name='menu_foods', on_delete=models.SET_NULL, null=True)
 
 
 class PaymentMethod(models.Model):
@@ -146,8 +146,8 @@ class Invoice(models.Model):
     lobby_price = FloatField(null=False)
     totalBill = FloatField(null=False)
 
-    wedding_lobby = models.ForeignKey(WeddingLobby, on_delete=models.SET_NULL, null=True)
-    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, null=True)
+    wedding_lobby = models.ForeignKey(WeddingLobby, related_name="invoices_lobby", on_delete=models.SET_NULL, null=True)
+    payment_method = models.ForeignKey(PaymentMethod, related_name="invoices_pay", on_delete=models.SET_NULL, null=True)
 
     foods = models.ManyToManyField(MenuFood, related_name="invoice_foods", blank=True, null=True)
     drinks = models.ManyToManyField(MenuDrink, related_name="invoice_drinks", blank=True, null=True, through="DrinkBillDetail")

@@ -39,8 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'NhaHangTiecCuoiApp.apps.NhahangtieccuoiappConfig',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
+    'rest_framework',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+
+    'DEFAULT_AUTHENTICATION_CLASSES':
+        (
+            'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+            'rest_framework_social_oauth2.authentication.SocialAuthentication',
+        )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -88,6 +105,43 @@ DATABASES = {
 
 
 AUTH_USER_MODEL = 'NhaHangTiecCuoiApp.User'
+
+AUTHENTICATION_BACKENDS = \
+    (
+        # Facebook OAuth2
+        'social_core.backends.facebook.FacebookAppOAuth2',
+        'social_core.backends.facebook.FacebookOAuth2',
+
+        # Google OAuth2
+        'social_core.backends.google.GoogleOAuth2',
+
+        # django-rest-framework-social-oauth2
+        'rest_framework_social_oauth2.backends.DjangoOAuth2',
+
+        # Django
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+# Facebook configuration
+SOCIAL_AUTH_FACEBOOK_KEY = '534483551121734'
+SOCIAL_AUTH_FACEBOOK_SECRET = '8707134e5c50ca0512576b72431c0835'
+
+# Google configuration
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '394988863481-vv9vcqudc2b9u51u0g5nvi9j3ltckjl2.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Uj4feoPgXNtU1vnt_ppFTybJ'
+
+# Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from Facebook.
+# Email is not sent by default, to get it, you must request the email permission.
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email'
+}
+
+# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+]
 
 
 # Password validation
@@ -130,7 +184,7 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = '%s/NhaHangTiecCuoiApp/static/' % BASE_DIR
 
-CKEDITOR_UPLOAD_PATH = "lobby/"
+CKEDITOR_UPLOAD_PATH = "img/avatar/"
 
 
 # Default primary key field type
