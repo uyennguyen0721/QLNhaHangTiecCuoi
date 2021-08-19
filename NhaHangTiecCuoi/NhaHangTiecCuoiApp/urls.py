@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from . import views
+from .admin import admin_site
 
 
 router = DefaultRouter()
@@ -13,6 +14,7 @@ router.register('food_types', views.FoodTypeViewSet)
 
 
 urlpatterns = [
+    path('admin/', admin_site.urls),
     path('', include(router.urls)),
     #path('', views.index, name="index"),
 ]

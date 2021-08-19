@@ -1,0 +1,13 @@
+{% extends 'admin/base_site.html' %}
+{% block content %}
+<h1>BÁO CÁO THỐNG KÊ</h1>
+<h2>Số lượng thức uống: {{ food_count }}</h2>
+<ul>
+{% for c in food_stats %}
+<li><strong>{{ c.name }}</strong> có {{ c.food_count }} món ăn </li>
+{% endfor %}
+</ul>
+{% endblock %}<body>
+
+</body>
+</html>

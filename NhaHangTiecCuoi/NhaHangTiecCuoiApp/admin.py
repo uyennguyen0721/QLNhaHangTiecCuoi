@@ -1,9 +1,33 @@
 from django.contrib import admin
+from django.db.models import Count
+from django.template.response import TemplateResponse
+from django.urls import path
 from django.utils.safestring import mark_safe
 
 from .models import User, Feedback, WeddingLobby, WeddingLobbyPrice, MenuFood, MenuDrink, Service, ServiceType, FoodType
 
 # Register your models here.
+
+
+class NhaHangTiecCuoiAppAdminSite(admin.AdminSite):
+    site_header = 'Quản lý nhà hàng tiệc cưới Glorian'
+
+    def get_urls(self):
+        return [
+                   path('glorian-stats/', self.glorian_stats)
+               ] + super().get_urls()
+
+    def glorian_stats(self, request):
+        count = FoodType.objects.count()
+        stats = FoodType.objects.annotate(food_count=Count('menu_foods')).values('id', 'name', 'food_count')
+        return TemplateResponse(request, 'admin/glorian-stats.html', {
+            'food_count': count,
+            'food_stats': stats
+        })
+
+
+
+admin_site = NhaHangTiecCuoiAppAdminSite(name='myadmin')
 
 
 class WeddingLobbyPriceInlineAdmin(admin.StackedInline):
@@ -88,12 +112,12 @@ class ServiceAdmin(admin.ModelAdmin):
                                                                                alt=service.name))
 
 
-admin.site.register(User)
-admin.site.register(Feedback)
-admin.site.register(WeddingLobby, WeddingLobbyAdmin)
-admin.site.register(WeddingLobbyPrice, WeddingLobbyPriceAdmin)
-admin.site.register(MenuFood, MenuFoodAdmin)
-admin.site.register(FoodType, FoodTypeAdmin)
-admin.site.register(MenuDrink, MenuDrinkAdmin)
-admin.site.register(Service, ServiceAdmin)
-admin.site.register(ServiceType, ServiceTypeAdmin)
+admin_site.register(User)
+admin_site.register(Feedback)
+admin_site.register(WeddingLobby, WeddingLobbyAdmin)
+admin_site.register(WeddingLobbyPrice, WeddingLobbyPriceAdmin)
+admin_site.register(MenuFood, MenuFoodAdmin)
+admin_site.register(FoodType, FoodTypeAdmin)
+admin_site.register(MenuDrink, MenuDrinkAdmin)
+admin_site.register(Service, ServiceAdmin)
+admin_site.register(ServiceType, ServiceTypeAdmin)
