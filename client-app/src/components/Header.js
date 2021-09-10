@@ -1,4 +1,5 @@
 import React from 'react'
+import '../assets/css/Header.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -6,10 +7,10 @@ import { faSearch} from '@fortawesome/free-solid-svg-icons'
 
 export default function Header () {
     return (
-        <Navbar expand="lg" variant="light" bg="light">
+        <Navbar expand="lg" variant="light" className="menu">
             <Container fluid>
                 <Navbar.Brand href="#home">
-                    <img src="/public/logo.png" alt="logo" className="d-inline-block align-top"/>
+                    <img src="/logo.png" alt="logo" className="d-inline-block align-top" width="50%"/>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -28,10 +29,12 @@ export default function Header () {
                             <NavDropdown.Item href="#action/3.2">Tiệc hội nghị</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Tiệc sinh nhật</NavDropdown.Item>
                         </NavDropdown>
+                        <Nav.Link href="#link">Đăng ký</Nav.Link>
+                        <Nav.Link href="#link">Đăng nhập</Nav.Link>
                     </Nav>
-                    <Form inline>
+                    <Form inline class="search">
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-success">
+                        <Button variant="outline-success" class="search-button">
                             <FontAwesomeIcon icon={faSearch} color="gold"size="lg"/>
                         </Button>
                     </Form>

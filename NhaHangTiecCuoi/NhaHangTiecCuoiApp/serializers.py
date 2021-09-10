@@ -40,7 +40,7 @@ class MenuDrinkSerializer(ModelSerializer):
         fields = ['id', 'name', 'price', 'image', 'unit']
 
 
-# menu-food
+# menu-food*
 class MenuFoodSerializer(ModelSerializer):
     class Meta:
         model = MenuFood

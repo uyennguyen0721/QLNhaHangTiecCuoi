@@ -3,7 +3,8 @@ from django.http import HttpResponse
 
 # Create your views here.
 # from oauth2_provider.contrib.rest_framework import permissions
-from rest_framework import viewsets, generics, permissions
+from requests import Response
+from rest_framework import viewsets, generics, permissions, status
 from rest_framework.parsers import MultiPartParser
 
 from .models import *
@@ -27,6 +28,10 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIVi
         if self.action == 'retrieve':
             return [permissions.IsAuthenticated()]
         return [permissions.AllowAny()]
+
+    # lấy user hiện tại*
+    def get_current_user(self, request):
+        return Response(self.serializer_class(request.user).data, status=status.HTTP_200_OK)
 
 
 # Xem thông tin

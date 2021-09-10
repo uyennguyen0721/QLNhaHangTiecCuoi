@@ -5,6 +5,3 @@ export default function Home () {
         <h1>GLORIA</h1>
     )
 }
-
-
-
