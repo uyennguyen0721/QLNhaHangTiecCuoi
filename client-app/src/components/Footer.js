@@ -79,7 +79,7 @@ function Footer() {
             </Link>
             <Link
               class='social-icon-link instagram'
-              to='https://www.instagram.com/uyennguyen0721/'
+              href='https://www.instagram.com/uyennguyen0721/'
               target='_blank'
               aria-label='Instagram'
             >
@@ -87,7 +87,7 @@ function Footer() {
             </Link>
             <Link
               class='social-icon-link youtube'
-              to='https://www.youtube.com/channel/UCHdPjoBVkgyOpipeZ4vgVKg'
+              href='https://www.youtube.com/channel/UCHdPjoBVkgyOpipeZ4vgVKg'
               target='_blank'
               aria-label='Youtube'
             >
@@ -95,7 +95,7 @@ function Footer() {
             </Link>
             <Link
               class='social-icon-link tiktok'
-              to='https://www.tiktok.com/@uyennguyen_21?'
+              href='https://www.tiktok.com/@uyennguyen_21?'
               target='_blank'
               aria-label='TikTok'
             >

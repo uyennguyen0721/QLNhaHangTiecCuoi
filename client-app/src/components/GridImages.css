@@ -56,8 +56,6 @@
     height: 100%;
   }
   
-  /* Anchor will cover the whole item by default */
-  /* For some effects it will show as a button */
   .grid-item figure figcaption > a {
     z-index: 500;
     text-indent: 200%;
