@@ -120,7 +120,7 @@ class MenuFood(BaseModel):
 
     description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='img/food', null=True)
-    is_vegetarian = models.BooleanField(null=False)
+    is_vegetarian = models.BooleanField(default=False)
 
     food_type = models.ForeignKey(FoodType, related_name='menu_foods', on_delete=models.SET_NULL, null=True)
 
