@@ -14,6 +14,7 @@ function HeroSection() {
           className='btns'
           buttonStyle='btn--outline'
           buttonSize='btn--large'
+          to='/sign-up'
         >
           ĐẶT TIỆC NGAY
         </Button>
