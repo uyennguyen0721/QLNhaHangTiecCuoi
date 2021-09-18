@@ -25,33 +25,33 @@ function Footer() {
           </form>
         </div>
       </section>
-      <div class='footer-links'>
+      <div className='footer-links'>
         <div className='footer-link-wrapper'>
-          <div class='footer-link-items address'>
+          <div className='footer-link-items address'>
             <h3>Trung tâm HN-TC Glorian</h3>
             <Link to='/'>
-              <i class="fas fa-map-marker-alt"/>
+              <i className="fas fa-map-marker-alt"/>
               18 Cộng Hòa, Phường 4, Tân Bình, TPHCM
             </Link>
             <Link to='/'>
-              <i class="fas fa-phone"/>
+              <i className="fas fa-phone"/>
               0943750941
             </Link>
             <Link to='/'>
-              <i class="fas fa-envelope"/>
+              <i className="fas fa-envelope"/>
               glorian@gmail.com
             </Link>
           </div>
         </div>
         <div className='footer-link-wrapper'>
-          <div class="footer-link-items contact">
+          <div className="footer-link-items contact">
             <h3>Về chúng tôi</h3>
             <Link to='/'>Trang chủ</Link>
             <Link to='/'>Thực đơn</Link>
             <Link to='/'>Đồ uống</Link>
             <Link to='/'>Dịch vụ</Link>
           </div>
-          <div class="footer-link-items contact">
+          <div className="footer-link-items contact">
             <h3>Liên hệ</h3>
             <Link to='/'>Instagram</Link>
             <Link to='/'>Facebook</Link>
@@ -60,54 +60,54 @@ function Footer() {
           </div>
         </div>
       </div>
-      <section class='social-media'>
-        <div class='social-media-wrap'>
-          <div class='footer-logo'>
+      <section className='social-media'>
+        <div className='social-media-wrap'>
+          <div className='footer-logo'>
             <Link to='/' className='social-logo'>
               <img src="/logo.png" alt="logo"/>
             </Link>
           </div>
-          <small class='website-rights'>GLORIAN © 2021</small>
-          <div class='social-icons'>
+          <small className='website-rights'>GLORIAN © 2021</small>
+          <div className='social-icons'>
             <Link
-              class='social-icon-link facebook'
-              href='https://www.facebook.com/nttu.dqt/'
+              className='social-icon-link facebook'
+              to='/'
               target='_blank'
               aria-label='Facebook'
             >
-              <i class='fab fa-facebook-f' />
+              <i className='fab fa-facebook-f' />
             </Link>
             <Link
-              class='social-icon-link instagram'
-              href='https://www.instagram.com/uyennguyen0721/'
+              className='social-icon-link instagram'
+              to='/'
               target='_blank'
               aria-label='Instagram'
             >
-              <i class='fab fa-instagram' />
+              <i className='fab fa-instagram' />
             </Link>
             <Link
-              class='social-icon-link youtube'
-              href='https://www.youtube.com/channel/UCHdPjoBVkgyOpipeZ4vgVKg'
+              className='social-icon-link youtube'
+              to='/'
               target='_blank'
               aria-label='Youtube'
             >
-              <i class='fab fa-youtube' />
+              <i className='fab fa-youtube' />
             </Link>
             <Link
-              class='social-icon-link tiktok'
-              href='https://www.tiktok.com/@uyennguyen_21?'
+              className='social-icon-link tiktok'
+              to='/'
               target='_blank'
               aria-label='TikTok'
             >
-              <i class="fab fa-tiktok"/>
+              <i className="fab fa-tiktok"/>
             </Link>
             <Link
-              class='social-icon-link twitter'
+              className='social-icon-link twitter'
               to='/'
               target='_blank'
               aria-label='LinkedIn'
             >
-              <i class='fab fa-linkedin' />
+              <i className='fab fa-linkedin' />
             </Link>
           </div>
         </div>

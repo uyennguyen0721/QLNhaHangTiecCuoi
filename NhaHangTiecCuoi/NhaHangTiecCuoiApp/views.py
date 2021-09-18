@@ -5,6 +5,7 @@ from django.http import HttpResponse
 # from oauth2_provider.contrib.rest_framework import permissions
 from requests import Response
 from rest_framework import viewsets, generics, permissions, status
+from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser
 
 from .models import *
@@ -36,9 +37,15 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIVi
 
 # Xem thông tin
 # xem danh sách sảnh tiệc*
-class WeddingLobbyViewSet(viewsets.ViewSet, generics.ListAPIView):
+
+class MenuLobbyViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = WeddingLobby.objects.all()
     serializer_class = WeddingLobbySerializer
+
+
+class WeddingLobbyViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
+    queryset = WeddingLobby.objects.all()
+    serializer_class = WeddingLobbyDetailsSerializer
 
 
 # xem danh sách menu-drink*

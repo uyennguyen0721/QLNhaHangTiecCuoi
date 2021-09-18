@@ -1,5 +1,6 @@
 :root {
     --primary: #fff;
+    --secondary: #3104B4;
   }
   
   .btn {
@@ -22,6 +23,26 @@
     padding: 8px 20px;
     border: 1px solid var(--primary);
     transition: all 0.3s ease-out;
+  }
+
+  .btn--secondary {
+    background-color: transparent;
+    color: var(--secondary);
+    padding: 8px 20px;
+    border: 1px solid var(--secondary);
+    transition: all 0.3s ease-out;
+  }
+
+  .btn--medium--secondary:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+    transition: all 0.3s ease-out;
+    transition: 250ms;
+  }
+
+  .btn--medium--secondary {
+    padding: 8px 20px;
+    font-size: 18px;
   }
   
   .btn--medium {

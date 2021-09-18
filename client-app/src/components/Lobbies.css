@@ -1,0 +1,22 @@
+.lobby-body {
+    font-family: 'Nunito', sans-serif;
+    padding: 10rem 5rem 5rem 5rem;
+    
+}
+
+.lobby-category .row img {
+    width: 100%;
+}
+
+.lobby-info {
+    padding-bottom: 2%;
+}
+
+.lobby-title {
+    color: #3104B4;
+    font-family: 'Nunito', sans-serif;
+}
+
+.lobby-menu {
+    padding: 1% 5% 5% 5%;
+}

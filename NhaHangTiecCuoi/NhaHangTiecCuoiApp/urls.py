@@ -11,6 +11,7 @@ router.register('wedding_lobbies', views.WeddingLobbyViewSet, basename='lobby')
 router.register('menu_drinks', views.MenuDrinkViewSet, basename='drink')
 router.register('menu_foods', views.MenuFoodViewSet, basename='food')
 router.register('food_types', views.FoodTypeViewSet, basename='food_type')
+router.register('wedding_lobbies', views.MenuLobbyViewSet, basename='lobby')
 
 
 urlpatterns = [

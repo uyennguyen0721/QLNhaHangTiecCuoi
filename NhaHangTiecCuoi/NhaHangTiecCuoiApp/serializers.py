@@ -1,3 +1,4 @@
+from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 from .models import *
 
@@ -26,11 +27,28 @@ class WeddingLobbyPriceSerializer(ModelSerializer):
 
 
 class WeddingLobbySerializer(ModelSerializer):
-    wedding_lobby_prices = WeddingLobbyPriceSerializer(many=True, read_only=True)
-
     class Meta:
         model = WeddingLobby
-        fields = ['id', 'name', 'image', 'location', 'capacity', 'description', 'wedding_lobby_prices']
+        fields = ['id', 'name']
+
+
+class WeddingLobbyDetailsSerializer(WeddingLobbySerializer):
+    wedding_lobby_prices = WeddingLobbyPriceSerializer(many=True, read_only=True)
+    image = SerializerMethodField()
+
+    class Meta:
+        model = WeddingLobbySerializer.Meta.model
+        fields = WeddingLobbySerializer.Meta.fields + ['image', 'location', 'capacity', 'description', 'wedding_lobby_prices']
+
+    def get_image(self, course):
+        request = self.context['request']
+        name = course.image.name
+        if name.startswith("static/"):
+            path = '/%s' % name
+        else:
+            path = '/static/%s' % name
+
+        return request.build_absolute_uri(path)
 
 
 # menu-drink*
