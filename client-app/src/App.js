@@ -7,6 +7,8 @@ import Services from './components/pages/Services';
 import SignUp from './components/pages/SignUp';
 import Lobbies from './components/pages/Lobbies';
 import LobbyDetail from './components/pages/LobbyDetail';
+import MenuDrink from './components/pages/MenuDrink';
+import MenuFood from './components/pages/MenuFood';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route exact path='/' component={Home} />
           <Route exact path='/lobbies' component={Lobbies} />
           <Route exact path='/lobbies/:lobbyId' component={LobbyDetail} />
+          <Route path='/menu-food' component={MenuFood} />
+          <Route path='/menu-drink' component={MenuDrink} />
           <Route path='/services' component={Services} />
           <Route path='/sign-up' component={SignUp} />
         </Switch>

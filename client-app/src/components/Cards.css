@@ -1,12 +1,22 @@
 .cards {
-    padding: 4rem;
+    padding: 5%;
     background: #fff;
+    font-family: 'Nunito', sans-serif;
   }
   
-  h1 {
+  .cards h1 {
     text-align: center;
+    color: #3104B4;
+    font-family: 'Nunito', sans-serif;
   }
   
+  .cards p {
+    font-family: 'Nunito', sans-serif;
+    color: black;
+    font-size: 18px;
+    margin-top: 3%;
+  }
+
   .cards__container {
     display: flex;
     flex-flow: column;
@@ -28,7 +38,7 @@
   .cards__item {
     display: flex;
     flex: 1;
-    margin: 0 1rem;
+    margin: 7% 3%;
     border-radius: 10px;
   }
   
@@ -57,17 +67,19 @@
   }
   
   .cards__item__pic-wrap::after {
-    content: attr(data-category);
+    /* content: attr(data-category); */
     position: absolute;
     bottom: 0;
     margin-left: 10px;
     padding: 6px 8px;
     max-width: calc((100%) - 60px);
-    font-size: 12px;
+    /* font-size: 16px;
     font-weight: 700;
     color: #fff;
-    background-color: #1f98f4;
+    background-color: #1f98f4; */
     box-sizing: border-box;
+    /* font-family: 'Nunito', sans-serif; */
+    text-decoration: none;
   }
   
   .cards__item__img {
@@ -91,12 +103,22 @@
   
   .cards__item__info {
     padding: 20px 30px 30px;
+    text-decoration: inherit !important;
+  }
+
+  .cards__item__info > p {
+    color: black;
+    font-family: 'Nunito', sans-serif;
+    text-decoration: inherit !important;
   }
   
   .cards__item__text {
-    color: #252e48;
-    font-size: 18px;
+    text-decoration: inherit !important;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
     line-height: 24px;
+    font-family: 'Nunito', sans-serif;
   }
   
   @media only screen and (min-width: 1200px) {

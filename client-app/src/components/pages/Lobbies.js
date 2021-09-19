@@ -8,7 +8,7 @@ import API, { endpoints } from '../../configs/API'
 
 export default function Lobbies() {
 
-  const [lobby, setLobby] = useState([])
+    const [lobby, setLobby] = useState([])
 
     useEffect(() => {
         async function fetchAPI () {
@@ -46,8 +46,8 @@ export default function Lobbies() {
                                   {l.name}
                               </Button>
                           </div>
-                )
-            }
+                        )
+                    }
                     </div>
                     <div className="col-md-8 col-xs-12">
                         <img src="/images/lobby-img.jpg" alt="ảnh minh họa"></img>
