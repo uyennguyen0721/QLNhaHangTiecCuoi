@@ -18,7 +18,7 @@ def index(request):
     })
 
 
-# đăng ký*
+# API đăng ký*
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIView, generics.RetrieveAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
@@ -35,8 +35,7 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIVi
         return Response(self.serializer_class(request.user).data, status=status.HTTP_200_OK)
 
 
-# Xem thông tin
-# xem danh sách sảnh tiệc*
+# API sảnh tiệc*
 
 class MenuLobbyViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = WeddingLobby.objects.all()
@@ -48,19 +47,37 @@ class WeddingLobbyViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
     serializer_class = WeddingLobbyDetailsSerializer
 
 
-# xem danh sách menu-drink*
+# API menu-drink*
+
 class MenuDrinkViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = MenuDrink.objects.filter(active=True)
     serializer_class = MenuDrinkSerializer
 
 
-# xem danh sách menu-food*
+# API menu-food*
+
 class MenuFoodViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = MenuFood.objects.filter(active=True)
     serializer_class = MenuFoodSerializer
 
 
+class MenuFoodDetailViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
+    queryset = MenuFood.objects.filter(active=True)
+    serializer_class = MenuFoodDetailSerializer
+
+
 class FoodTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = FoodType.objects.all()
     serializer_class = FoodTypeSerializer
+
+    @action(methods=['get'], detail=True, url_path='foods')
+    def get_foods(self, request, pk):
+        foods = FoodType.objects.get(pk=pk).menu_foods.filter(active=True)
+
+        q = request.query_params.get('q')
+        if q is not None:
+            foods = foods.filter(name__icontains=q)
+
+        return Response(MenuFoodSerializer(foods, many=True).data,
+                        status=status.HTTP_200_OK)
 

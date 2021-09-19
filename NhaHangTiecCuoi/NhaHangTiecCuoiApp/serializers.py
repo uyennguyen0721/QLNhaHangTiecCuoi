@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import *
 
 
-# user*
+# API user*
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
@@ -19,7 +19,7 @@ class UserSerializer(ModelSerializer):
         return user
 
 
-# sảnh tiệc*
+# API sảnh tiệc*
 class WeddingLobbyPriceSerializer(ModelSerializer):
     class Meta:
         model = WeddingLobbyPrice
@@ -40,9 +40,9 @@ class WeddingLobbyDetailsSerializer(WeddingLobbySerializer):
         model = WeddingLobbySerializer.Meta.model
         fields = WeddingLobbySerializer.Meta.fields + ['image', 'location', 'capacity', 'description', 'wedding_lobby_prices']
 
-    def get_image(self, course):
+    def get_image(self, lobby):
         request = self.context['request']
-        name = course.image.name
+        name = lobby.image.name
         if name.startswith("static/"):
             path = '/%s' % name
         else:
@@ -51,18 +51,50 @@ class WeddingLobbyDetailsSerializer(WeddingLobbySerializer):
         return request.build_absolute_uri(path)
 
 
-# menu-drink*
+# API menu-drink*
 class MenuDrinkSerializer(ModelSerializer):
+    image = SerializerMethodField()
+
     class Meta:
         model = MenuDrink
         fields = ['id', 'name', 'price', 'image', 'unit']
 
+    def get_image(self, drink):
+        request = self.context['request']
+        name = drink.image.name
+        if name.startswith("static/"):
+            path = '/%s' % name
+        else:
+            path = '/static/%s' % name
 
-# menu-food*
+        return request.build_absolute_uri(path)
+
+
+# API menu-food*
+
+
 class MenuFoodSerializer(ModelSerializer):
+    image = SerializerMethodField()
+
     class Meta:
         model = MenuFood
         fields = ['id', 'name', 'price', 'image']
+
+    def get_image(self, food):
+        request = self.context['request']
+        name = food.image.name
+        if name.startswith("static/"):
+            path = '/%s' % name
+        else:
+            path = '/static/%s' % name
+
+        return request.build_absolute_uri(path)
+
+
+class MenuFoodDetailSerializer(MenuFoodSerializer):
+    class Meta:
+        model = MenuFoodSerializer.Meta.model
+        fields = MenuFoodSerializer.Meta.fields + ['description', 'is_vegetarian']
 
 
 class FoodTypeSerializer(ModelSerializer):

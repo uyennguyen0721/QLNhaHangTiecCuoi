@@ -1,7 +1,6 @@
 .lobby-body {
     font-family: 'Nunito', sans-serif;
-    padding: 10rem 5rem 5rem 5rem;
-    
+    padding: 15% 5% 5% 5%;
 }
 
 .lobby-category .row img {
@@ -19,4 +18,39 @@
 
 .lobby-menu {
     padding: 1% 5% 5% 5%;
+}
+
+@media(max-width: 850px){
+    .lobby-body {
+        font-family: 'Nunito', sans-serif;
+        padding: 18% 5% 5% 5%;
+    }
+}
+
+@media(max-width: 670px){
+    .lobby-body {
+        font-family: 'Nunito', sans-serif;
+        padding: 23% 5% 5% 5%;
+    }
+}
+
+@media(max-width: 475px){
+    .lobby-body {
+        font-family: 'Nunito', sans-serif;
+        padding: 30% 5% 5% 5%;
+    }
+}
+
+@media(max-width: 350px){
+    .lobby-body {
+        font-family: 'Nunito', sans-serif;
+        padding: 40% 5% 5% 5%;
+    }
+}
+
+@media(max-width: 270px){
+    .lobby-body {
+        font-family: 'Nunito', sans-serif;
+        padding: 50% 5% 5% 5%;
+    }
 }
