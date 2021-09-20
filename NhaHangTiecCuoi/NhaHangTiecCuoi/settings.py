@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'NhaHangTiecCuoiApp.apps.NhahangtieccuoiappConfig',
+    'NhaHangTiecCuoiApp',
     'ckeditor',
     'ckeditor_uploader',
     'rest_framework',

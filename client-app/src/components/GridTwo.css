@@ -2,6 +2,10 @@
     font-family: 'Nunito', sans-serif;
 }
 
+.grid__item__col {
+    margin-bottom: 5%;
+}
+
 .grid__item__col > img {
     width: 100%;
 }
