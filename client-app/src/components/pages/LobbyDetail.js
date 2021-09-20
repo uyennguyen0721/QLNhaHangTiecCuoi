@@ -10,12 +10,11 @@ import { Spinner } from 'react-bootstrap';
 export default function Lobbies() {
 
   let { lobbyId } = useParams()
-  let [ lobbies, setLobbies] = useState("")
+  let [ lobbies, setLobbies] = useState([])
 
   useEffect(() => {
     async function fetchAPI () {
       let res = await API.get(endpoints['wedding_lobbies-detail'](lobbyId))
-      console.info(endpoints['wedding_lobbies-detail'](lobbyId))
       setLobbies(res.data)
     }
     fetchAPI()

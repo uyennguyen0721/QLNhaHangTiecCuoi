@@ -76,10 +76,6 @@ class MenuDrinkSerializer(ModelSerializer):
 class MenuFoodSerializer(ModelSerializer):
     image = SerializerMethodField()
 
-    class Meta:
-        model = MenuFood
-        fields = ['id', 'name', 'price', 'image']
-
     def get_image(self, food):
         request = self.context['request']
         name = food.image.name
@@ -89,6 +85,10 @@ class MenuFoodSerializer(ModelSerializer):
             path = '/static/%s' % name
 
         return request.build_absolute_uri(path)
+
+    class Meta:
+        model = MenuFood
+        fields = ['id', 'name', 'price', 'image', 'food_type']
 
 
 class MenuFoodDetailSerializer(MenuFoodSerializer):

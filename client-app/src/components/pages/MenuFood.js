@@ -1,14 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from 'react'
+import CardItem from '../CardItem';
 import HeaderSection from "../HeaderSection";
+import '../Cards.css'
+import API, { endpoints } from '../../configs/API';
+import { useParams } from 'react-router';
+import { Spinner } from 'react-bootstrap';
+import Footer from '../Footer';
 
 export default function MenuFood () {
+
+    let { food_typeId } = useParams()
+    const [food, setFood] = useState([])
+
+    useEffect(() => {
+        async function fetchAPI () {
+            let res = await API.get(endpoints['food_type_foods'](food_typeId))
+            setFood(res.data)
+        }
+        fetchAPI()
+    })
+
+    if(food === null || food === undefined){
+        return <Spinner animation="border"/>
+    }
+
     return (
         <>
             <HeaderSection
-                src="/images/menufoods-bg.jpg"
+                src="/images/foods-bg.jpg"
                 name="Thực đơn"
             />
-            
+            <div className='cards'>
+                <h1>Thực đơn đặc sắc</h1>
+                <div className='cards__container'>
+                    <div className='cards__wrapper'>
+                        <div className='cards__items row'>
+                            {
+                                food.length!==0 && food.map(f =>
+                                    <CardItem
+                                        src={f.image}
+                                        text={f.name}
+                                        path= '/menu-drink'
+                                        price={f.price}
+                                        unit='10 phần'
+                                        key={f.id}
+                                    />
+                                )
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Footer />
         </>
     )
 }
