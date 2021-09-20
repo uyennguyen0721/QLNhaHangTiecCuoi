@@ -6,4 +6,3 @@
 - Công nghệ sử dụng: Python Django, React Js, APIs
 # Sinh viên thực hiện:
 - Nguyễn Thị Thu Uyên
-- Đỗ Cao Thành

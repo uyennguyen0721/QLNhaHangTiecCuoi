@@ -40,7 +40,7 @@ export default function MenuFood () {
                                     <CardItem
                                         src={f.image}
                                         text={f.name}
-                                        path= '/menu-drink'
+                                        path= {`/menu_foods/${f.id}`}
                                         price={f.price}
                                         unit='10 phần'
                                         key={f.id}

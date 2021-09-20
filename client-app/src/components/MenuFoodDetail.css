@@ -1,0 +1,27 @@
+.food-detail {
+    padding: 15% 5% 5% 5%;
+}
+
+.food-detail .row img {
+    width: 100%;
+}
+
+.food-detail h1 {
+    margin-bottom: 3%;
+    color: #3104B4;
+    font-family: 'Nunito', sans-serif;
+}
+
+.food-detail h2 {
+    margin-bottom: 3%;
+    font-family: 'Nunito', sans-serif;
+}
+
+.food-detail p {
+    font-family: 'Nunito', sans-serif;
+}
+
+.food-detail ul li {
+    font-family: 'Nunito', sans-serif;
+    margin-left: 1%;
+}
