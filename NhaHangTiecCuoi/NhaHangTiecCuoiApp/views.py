@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -7,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser
+from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
@@ -26,13 +28,16 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIVi
 
     # xem thông tin của user được chứng thực*
     def get_permissions(self):
-        if self.action == 'retrieve':
+        if self.action == 'get_current_user':
             return [permissions.IsAuthenticated()]
+
         return [permissions.AllowAny()]
 
     # lấy user hiện tại*
+    @action(methods=['get'], detail=False, url_path="current-user")
     def get_current_user(self, request):
-        return Response(self.serializer_class(request.user).data, status=status.HTTP_200_OK)
+        return Response(self.serializer_class(request.user, context={"request": request}).data,
+                        status=status.HTTP_200_OK)
 
 
 # API sảnh tiệc*
@@ -90,3 +95,7 @@ class FoodTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
         return Response(MenuFoodSerializer(foods, many=True, context={"request": request}).data,
                         status=status.HTTP_200_OK)
 
+
+class AuthInfo(APIView):
+    def get(self, request):
+        return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)

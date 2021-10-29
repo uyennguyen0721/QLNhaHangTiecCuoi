@@ -6,7 +6,10 @@ export let endpoints = {
     'menu_drinks' : '/menu_drinks/',
     'food_type' : '/food_type/',
     'food_type_foods': (food_typeId) =>  `/food_type/${food_typeId}/foods/`,
-    'menu_foods_detail': (foodId) => `/menu_foods/${foodId}/`
+    'menu_foods_detail': (foodId) => `/menu_foods/${foodId}/`,
+    "oauth2-info": "/oauth2-info/",
+    "login": "/o/token/",
+    "current-user": "/users/current-user/"
 }
 
 export default axios.create({

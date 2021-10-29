@@ -2,14 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from "react-router";
+import cookies from "react-cookies"
+import { logoutUser } from './ActionCreators/UserCreators';
 
 function Navbar() {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
   const [navbar, setNavbar] = useState(false);
 
-  const handleClick = () => setClick(!click);
+  const handleCLick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
+
+  const history = useHistory()
+  const user = useSelector(state => state.user.user)
+  const dispatch = useDispatch()
 
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -36,6 +44,38 @@ function Navbar() {
 
   window.addEventListener('scroll', changeBackground);
 
+  const logout = (event) => {
+    event.preventDefault()
+
+    cookies.remove("access_token")
+    cookies.remove("user")
+    dispatch(logoutUser())
+  }
+
+  const handleCLick1 = (event) => {
+    closeMobileMenu();
+    logout(event);
+  }
+
+  let path = <>
+      <li>
+        <Link className='nav-links-mobile' onClick={closeMobileMenu} to="/login">Đăng nhập</Link>
+      </li>
+    </>
+  let path1 = <>
+    {button && <Button buttonStyle='btn--outline' to="/register">Đăng ký</Button>}
+  </>
+  if (user !== null && user !== undefined) {
+    path1 = <>
+      {button && <Button buttonStyle='btn--outline' to="/">{user.username}</Button>}
+    </>
+    path = <>
+      <li>
+        <Link className='nav-links-mobile' onClick={handleCLick1}>Đăng xuất</Link>
+      </li>
+    </>
+  }
+
   return (
     <>
       <nav className={navbar ? 'navbar active' : 'navbar'}>
@@ -43,7 +83,7 @@ function Navbar() {
           <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
               <img src="/logo.png" alt="logo"/>
           </Link>
-          <div className='menu-icon' onClick={handleClick}>
+          <div className='menu-icon' onClick={handleCLick}>
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
           </div>
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
@@ -89,17 +129,9 @@ function Navbar() {
               </Link>
             </li>
 
-            <li>
-              <Link
-                to='/sign-up'
-                className='nav-links-mobile'
-                onClick={closeMobileMenu}
-              >
-                Đăng nhập
-              </Link>
-            </li>
+            {path}
           </ul>
-          {button && <Button buttonStyle='btn--outline' to='sign-up'>Đăng ký</Button>}
+          {path1}
         </div>
       </nav>
     </>

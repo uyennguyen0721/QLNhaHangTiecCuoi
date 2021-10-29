@@ -18,5 +18,6 @@ router.register('food_type', views.FoodTypeViewSet, basename='food_type')
 urlpatterns = [
     path('admin/', admin_site.urls),
     path('', include(router.urls)),
+    path('oauth2-info/', views.AuthInfo.as_view())
     #path('', views.index, name="index"),
 ]

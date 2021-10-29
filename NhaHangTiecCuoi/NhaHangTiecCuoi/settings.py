@@ -60,6 +60,15 @@ REST_FRAMEWORK = {
         )
 }
 
+OAUTH2_INFO = {
+    "client_id": "7V3mkjDEPGYtcxpId71FJ2BdEkS3oucor0ikLSy5",
+    "client_secret": "lHFNYYiF9Y5hUenYf57hAaMZ97CeHKbDUJSc4mzbkDSGNV3JdM9ZqEL3TquAB2irU6t0NW8TkYxKNPGMosvyrAd4CeC8bFwYPam2SrGoPjroElCEZBWjr9rJJPWLq9UH"
+}
+
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
