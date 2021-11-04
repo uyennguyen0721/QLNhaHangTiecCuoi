@@ -13,6 +13,11 @@ router.register('menu_drinks', views.MenuDrinkViewSet, basename='drink')
 router.register('menu_foods', views.MenuFoodViewSet, basename='food')
 router.register('menu_foods', views.MenuFoodDetailViewSet, basename='food')
 router.register('food_type', views.FoodTypeViewSet, basename='food_type')
+router.register('service_type', views.ServiceTypeViewSet, basename='service_type')
+router.register('services', views.ServiceViewSet, basename='service')
+router.register('wedding_event', views.WeddingEventViewSet, basename='wedding_event')
+router.register('conference_event', views.ConferenceEventViewSet, basename='conference_event')
+router.register('birthday_event', views.BirthdayEventViewSet, basename='birthday_event')
 
 
 urlpatterns = [

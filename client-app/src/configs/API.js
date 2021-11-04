@@ -7,9 +7,14 @@ export let endpoints = {
     'food_type' : '/food_type/',
     'food_type_foods': (food_typeId) =>  `/food_type/${food_typeId}/foods/`,
     'menu_foods_detail': (foodId) => `/menu_foods/${foodId}/`,
+    'menu_foods': '/menu_foods/',
+    'wedding_event': '/wedding_event/',
+    'conference_event': '/conference_event/',
+    'birthday_event': '/birthday_event/',
     "oauth2-info": "/oauth2-info/",
     "login": "/o/token/",
-    "current-user": "/users/current-user/"
+    "current-user": "/users/current-user/",
+    "register": "/users/",
 }
 
 export default axios.create({

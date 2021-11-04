@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import CardItem from '../CardItem';
-import HeaderSection from "../HeaderSection";
-import '../Cards.css'
+import CardItem from '../layout/CardItem';
+import HeaderSection from "./HeaderSection";
+import '../css/Cards.css'
 import API, { endpoints } from '../../configs/API';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
-import Footer from '../Footer';
+import Footer from '../layout/Footer';
 
 export default function MenuFood () {
 
@@ -40,7 +40,7 @@ export default function MenuFood () {
                                     <CardItem
                                         src={f.image}
                                         text={f.name}
-                                        path= {`/menu_foods/${f.id}`}
+                                        path= {`/menu-foods/${f.id}`}
                                         price={f.price}
                                         unit='10 phần'
                                         key={f.id}

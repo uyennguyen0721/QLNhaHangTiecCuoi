@@ -47,31 +47,34 @@ export default function Login() {
 
     return (
         <>
-            <div className="row" style={{marginTop: "5%"}}>
+            <div className="row" style={{marginTop: "5%", marginLeft: "2%", marginRight: "2%"}}>
                 <div className="col-md-4"></div>
-                <div className="col-md-4">
-                    <h1 className="text-center text-danger">ĐĂNG NHẬP</h1>
-                    <Form onSubmit={login} style={{marginTop: "5%"}}>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Tên đăng nhập</Form.Label>
-                            <Form.Control type="text"
-                                        placeholder="Tên đăng nhập"
-                                        value={username}
-                                        onChange={(event) => setUsername(event.target.value)} />
-                        </Form.Group>
+                <div className="col-md-4 card" style={{marginBottom: "5%", backgroundColor: "#CECEF6"}}>
+                    <div style={{margin: "5%"}}>
+                        <h1 className="text-center text-danger">ĐĂNG NHẬP</h1>
+                        <Form onSubmit={login} style={{marginTop: "5%"}}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Label>Tên đăng nhập</Form.Label>
+                                <Form.Control type="text"
+                                            placeholder="Tên đăng nhập"
+                                            value={username}
+                                            onChange={(event) => setUsername(event.target.value)} />
+                            </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Mật khẩu</Form.Label>
-                            <Form.Control type="password"
-                                        placeholder="Mật khẩu"
-                                        value={password}
-                                        onChange={(event) => setPassword(event.target.value)} />
-                        </Form.Group>
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Label>Mật khẩu</Form.Label>
+                                <Form.Control type="password"
+                                            placeholder="Mật khẩu"
+                                            value={password}
+                                            onChange={(event) => setPassword(event.target.value)} />
+                            </Form.Group>
 
-                        <Button variant="primary" type="submit">
-                            Đăng nhập
-                        </Button>
-                    </Form>
+                            <Button className="form-control" variant="primary" type="submit">
+                                Đăng nhập
+                            </Button>
+                            <p class="text-right" style={{marginTop: "3%"}}>Bạn chưa có tài khoản? <a href="/register">Đăng ký</a></p>
+                        </Form>
+                    </div>
                 </div>
                 <div className="col-md-4"></div>
             </div>

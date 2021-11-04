@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../../App.css';
-import '../Lobbies.css'
-import Footer from '../Footer';
-import HeaderSection from '../HeaderSection';
-import { useParams } from 'react-router';
+import '../css/Lobbies.css'
+import Footer from '../layout/Footer';
+import HeaderSection from './HeaderSection';
+import { useParams } from 'react-router-dom';
 import API, { endpoints } from '../../configs/API'
 import { Spinner } from 'react-bootstrap';
 

@@ -4,6 +4,7 @@ import App from './App';
 import { createStore } from 'redux';
 import mainReducer from "./components/reducers/RootReducer"
 import { Provider } from 'react-redux';
+import reportWebVitals from './reportWebVitals';
 
 const store = createStore(mainReducer)
 
@@ -13,3 +14,5 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
   );
+
+  reportWebVitals();

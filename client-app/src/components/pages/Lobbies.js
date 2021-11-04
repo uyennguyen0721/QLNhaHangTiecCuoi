@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../../App.css';
-import '../Lobbies.css'
-import { Button } from "../Button";
-import Footer from '../Footer';
-import HeaderSection from '../HeaderSection';
+import '../css/Lobbies.css'
+import { Button } from "../layout/Button";
+import Footer from '../layout/Footer';
+import HeaderSection from './HeaderSection';
 import API, { endpoints } from '../../configs/API'
 
 export default function Lobbies() {

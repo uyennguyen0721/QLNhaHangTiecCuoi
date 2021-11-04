@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import API, { endpoints } from "../../configs/API";
-import CardItem from "../CardItem";
-import '../Cards.css'
-import Footer from "../Footer";
-import HeaderSection from "../HeaderSection";
+import CardItem from "../layout/CardItem";
+import '../css/Cards.css'
+import Footer from "../layout/Footer";
+import HeaderSection from "./HeaderSection";
 
 export default function MenuDrink () {
 

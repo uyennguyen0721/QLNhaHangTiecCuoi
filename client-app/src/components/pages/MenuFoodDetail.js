@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 import API, { endpoints } from "../../configs/API";
-import Footer from "../Footer";
-import HeaderSection from "../HeaderSection";
-import '../MenuFoodDetail.css'
+import Footer from "../layout/Footer";
+import HeaderSection from "./HeaderSection";
+import '../css/MenuFoodDetail.css'
 
 export default function MenuFoodDetail () {
 

@@ -5,31 +5,33 @@ from .models import *
 
 # API user*
 class UserSerializer(ModelSerializer):
-    avatar = SerializerMethodField()
-
-    def get_avatar(self, user):
-        request = self.context['request']
-        if user.avatar:
-            name = user.avatar.name
-            if name.startswith("static/"):
-                path = '/%s' % name
-            else:
-                path = '/static/%s' % name
-
-            return request.build_absolute_uri(path)
-
-    class Meta:
-        model = User
-        fields = ["id", "first_name", "last_name", "email", "username", "password", "avatar"]
-        extra_kwargs = {
-            'password': {'write_only': 'true'}
-        }
+    # avatar = SerializerMethodField()
+    #
+    # def get_avatar(self, user):
+    #     request = self.context['request']
+    #     if user.avatar:
+    #         name = user.avatar.name
+    #         if name.startswith("static/"):
+    #             path = '/%s' % name
+    #         else:
+    #             path = '/static/%s' % name
+    #
+    #         return request.build_absolute_uri(path)
 
     def create(self, validated_data):
         user = User(**validated_data)
-        user.set_password(validated_data['password'])
+        user.set_password(user.password)
         user.save()
+
         return user
+
+    class Meta:
+        model = User
+        fields = ["id", "first_name", "last_name", "avatar",
+                  "username", "password", "email"]
+        extra_kwargs = {
+            'password': {'write_only': 'true'}
+        }
 
 
 # API sảnh tiệc*
@@ -116,3 +118,32 @@ class FoodTypeSerializer(ModelSerializer):
     class Meta:
         model = FoodType
         fields = ['id', 'name', 'menu_foods']
+
+
+# API Service
+
+class ServiceSerializer(ModelSerializer):
+    image = SerializerMethodField()
+
+    def get_image(self, service):
+        request = self.context['request']
+        name = service.image.name
+        if name.startswith("static/"):
+            path = '/%s' % name
+        else:
+            path = '/static/%s' % name
+
+        return request.build_absolute_uri(path)
+
+    class Meta:
+        model = Service
+        fields = ['id', 'name', 'price', 'image', 'service_type']
+
+
+class ServiceTypeSerializer(ModelSerializer):
+    services = ServiceSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ServiceType
+        fields = ['id', 'name', 'event_type', 'services']
+

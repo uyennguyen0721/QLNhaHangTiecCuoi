@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import HeaderSection from "../HeaderSection";
+import HeaderSection from "./HeaderSection";
 import Slider from "../Slider/Slider";
-import Footer from '../Footer'
-import '../MenuFood.css'
-import { Button } from "../Button";
+import Footer from '../layout/Footer'
+import '../css/MenuFood.css'
+import { Button } from "../layout/Button";
 import API, { endpoints } from "../../configs/API";
 
 export default function FoodType () {
@@ -45,6 +45,7 @@ export default function FoodType () {
                             )
                         }
                     </div>
+                    <p><i>&gt;&gt; Xem tất cả món ăn <a href="/menu-foods">Tại đây</a></i></p>
                 </div>
                 <div className="col-md-6 col-xs-12">
                     <Slider/>
