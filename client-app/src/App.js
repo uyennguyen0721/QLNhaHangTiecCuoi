@@ -13,10 +13,14 @@ import MenuFoodDetail from './components/pages/MenuFoodDetail';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import MenuFoods from './components/pages/MenuFoods';
+import WeddingService from './components/pages/WeddingService'
+import ScrollToTop from './components/layout/ScrollToTop';
+import ConferenceService from './components/pages/ConferenceService';
 
 function App() {
   return (
       <BrowserRouter>
+        <ScrollToTop />
         <Navbar />
         <Switch>
           <Route exact path='/' component={Home} />
@@ -28,8 +32,8 @@ function App() {
           <Route exact path='/menu-foods/:foodId' component={MenuFoodDetail}/>
           <Route exact path='/menu-foods' component={MenuFoods} />
           <Route exact path='/services' component={Services} />
-          <Route exact path='/wedding-service' component={Services} />
-          <Route exact path='/conference-service' component={Services} />
+          <Route exact path='/wedding-service' component={WeddingService} />
+          <Route exact path='/conference-service' component={ConferenceService} />
           <Route exact path='/birthday-service' component={Services} />
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
