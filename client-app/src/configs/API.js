@@ -11,6 +11,7 @@ export let endpoints = {
     'wedding_event': '/wedding_event/',
     'conference_event': '/conference_event/',
     'birthday_event': '/birthday_event/',
+    'services': (serviceId) => `/service_type/${serviceId}/services/`,
     "oauth2-info": "/oauth2-info/",
     "login": "/o/token/",
     "current-user": "/users/current-user/",
