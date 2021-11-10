@@ -34,8 +34,6 @@ export default function Login() {
                 }
             })
 
-            console.info(user)
-
             cookies.save("user", user.data)
 
             dispatch(loginUser(user.data))

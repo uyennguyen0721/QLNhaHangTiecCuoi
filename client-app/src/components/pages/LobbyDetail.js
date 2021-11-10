@@ -26,9 +26,7 @@ export default function Lobbies() {
 
 
   const listPrices = () => {
-    console.log("lobbies", lobbies)
     if (lobbies?.wedding_lobby_prices?.length) {
-        console.log(lobbies.wedding_lobby_prices)
         return lobbies.wedding_lobby_prices.map((p, index) => p.is_weekend === false ? (
                 <div key={index}>
                     {p.time === 1 && <div>Buổi sáng: {p.price} VNĐ</div>}
@@ -42,9 +40,7 @@ export default function Lobbies() {
   }
 
   const listPrices1 = () => {
-    console.log("lobbies", lobbies)
     if (lobbies?.wedding_lobby_prices?.length) {
-        console.log(lobbies.wedding_lobby_prices)
         return lobbies.wedding_lobby_prices.map((p, index) => p.is_weekend === true ? (
                 <div key={index}>
                     {p.time === 1 && <div>Buổi sáng: {p.price} VNĐ</div>}
@@ -72,7 +68,7 @@ export default function Lobbies() {
             <div className="lobby-category">
                 <div className="row">
                     <div className="col-md-4 col-xs-12">
-                        <h3>Đơn giá thuê sảnh</h3>
+                        <h4 style={{color: "#3104B4", fontFamily: "'Nunito', sans-serif"}}>Đơn giá thuê sảnh</h4>
                         <div>
                             <ul>
                                 <li style={{marginLeft: "5%", marginTop: "3%"}}>
