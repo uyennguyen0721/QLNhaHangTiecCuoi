@@ -20,7 +20,7 @@ def index(request):
 
 
 # API register*
-class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     parser_classes = [MultiPartParser, ]
@@ -100,7 +100,7 @@ class FoodTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 class ServiceTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = ServiceType.objects.all()
-    serializer_class = FoodTypeSerializer
+    serializer_class = ServiceTypeSerializer
 
     @action(methods=['get'], detail=True, url_path='services')
     def get_services(self, request, pk):
@@ -110,7 +110,7 @@ class ServiceTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
         if q is not None:
             service = service.filter(name__icontains=q)
 
-        return Response(MenuFoodSerializer(service, many=True, context={"request": request}).data,
+        return Response(ServiceSerializer(service, many=True, context={"request": request}).data,
                         status=status.HTTP_200_OK)
 
 
