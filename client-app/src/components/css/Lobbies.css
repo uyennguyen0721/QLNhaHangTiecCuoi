@@ -20,6 +20,14 @@
     padding: 1% 5% 5% 5%;
 }
 
+li{
+    font-family: 'Nunito', sans-serif;
+}
+
+li > div > div > div {
+    margin: 2%;
+}
+
 @media(max-width: 850px){
     .lobby-body {
         font-family: 'Nunito', sans-serif;

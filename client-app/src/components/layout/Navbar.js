@@ -58,6 +58,7 @@ function Navbar() {
     cookies.remove("access_token")
     cookies.remove("user")
     dispatch(logoutUser())
+    history.push("/")
   }
 
   const handleCLick1 = (event) => {
@@ -75,7 +76,7 @@ function Navbar() {
   </>
   if (user !== null && user !== undefined) {
     path1 = <>
-      {button && <Button buttonStyle='btn--outline' to="/">{user.first_name} {user.last_name}</Button>}
+      {button && <Button buttonStyle='btn--outline' to="/profile">{user.first_name} {user.last_name}</Button>}
     </>
     path = <>
       <li>
