@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render
+# from django.db.models import Q
 
 # Create your views here.
 # from oauth2_provider.contrib.rest_framework import permissions
@@ -46,8 +47,31 @@ class MenuLobbyViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 
 class WeddingLobbyViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
-    queryset = WeddingLobby.objects.all()
+    # queryset = WeddingLobby.objects.all()
     serializer_class = WeddingLobbyDetailsSerializer
+
+    def get_queryset(self):
+        lobbies = WeddingLobby.objects.all()
+
+        q = self.request.query_params.get('q')
+        if q is not None:
+            lobbies = lobbies.filter(name__icontains=q)
+
+        return lobbies
+
+
+class WeddingLobbyPriceViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
+    # queryset = WeddingLobby.objects.all()
+    serializer_class = WeddingLobbyPriceSerializer
+
+    def get_queryset(self):
+        prices = WeddingLobbyPrice.objects.all()
+
+        q = self.request.query_params.get('q')
+        if q is not None:
+            prices = prices.filter(price__lte=q)
+
+        return prices
 
 
 # API menu-drink*
@@ -115,9 +139,18 @@ class ServiceTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 
 class ServiceViewSet(viewsets.ViewSet, generics.ListAPIView):
-    queryset = Service.objects.filter(active=True)
+    # queryset = Service.objects.filter(active=True)
     serializer_class = ServiceSerializer
     pagination_class = BasePagination
+
+    def get_queryset(self):
+        services = Service.objects.filter(active=True)
+
+        q = self.request.query_params.get('q')
+        if q is not None:
+            services = services.filter(name__icontains=q)
+
+        return services
 
 
 class WeddingEventViewSet(viewsets.ViewSet, generics.ListAPIView):

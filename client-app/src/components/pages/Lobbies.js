@@ -16,7 +16,7 @@ export default function Lobbies() {
             setLobby(res.data.results)
         }
         fetchAPI()
-    })
+    }, [])
 
   return (
     <>

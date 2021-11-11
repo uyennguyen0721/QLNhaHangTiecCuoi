@@ -16,7 +16,7 @@ export default function ConferenceService () {
             setConferenceServiceType(res.data.results)
         }
         fetchAPI()
-    })
+    }, [])
 
     return (
         <>

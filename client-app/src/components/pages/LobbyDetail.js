@@ -18,7 +18,7 @@ export default function Lobbies() {
       setLobbies(res.data)
     }
     fetchAPI()
-  })
+  }, [])
 
   if(lobbies === null || lobbies === undefined){
       return <Spinner animation="border"/>

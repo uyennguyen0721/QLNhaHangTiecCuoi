@@ -15,7 +15,7 @@ export default function MenuDrink () {
             setDrink(res.data.results)
         }
         fetchAPI()
-    })
+    }, [])
 
     return (
         <>

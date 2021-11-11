@@ -17,7 +17,7 @@ export default function MenuFoodDetail () {
         setFoods(res.data)
         }
         fetchAPI()
-    })
+    }, [])
 
     if(foods === null || foods === undefined){
         return <Spinner animation="border"/>
