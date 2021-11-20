@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.shortcuts import render
-# from django.db.models import Q
 
 # Create your views here.
 # from oauth2_provider.contrib.rest_framework import permissions
@@ -41,13 +40,22 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIVi
 # API lobby*
 
 class MenuLobbyViewSet(viewsets.ViewSet, generics.ListAPIView):
-    queryset = WeddingLobby.objects.all()
+    # queryset = WeddingLobby.objects.all()
     serializer_class = WeddingLobbySerializer
     pagination_class = BasePagination
 
+    def get_queryset(self):
+        lobbies = WeddingLobby.objects.all()
+
+        q = self.request.query_params.get('q')
+        if q is not None:
+            lobbies = lobbies.filter(name__icontains=q)
+
+        return lobbies
+
 
 class WeddingLobbyViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
-    # queryset = WeddingLobby.objects.all()
+    queryset = WeddingLobby.objects.all()
     serializer_class = WeddingLobbyDetailsSerializer
 
     def get_queryset(self):
@@ -169,6 +177,39 @@ class BirthdayEventViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = ServiceType.objects.filter(event_type=3)
     serializer_class = ServiceTypeSerializer
     pagination_class = BasePagination
+
+
+# API Feedback
+
+class FeedbackViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedBackSerializer
+
+    @action(methods=['post'], detail=False, url_path="add-feedback")
+    def add_feedback(self, request):
+        content = request.data.get('content')
+        if content:
+            f = Feedback.objects.create(content=content,
+                                        user=request.user)
+
+            return Response(FeedBackSerializer(f, context={"request": request}).data,
+                            status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['post'], detail=False, url_path='rating')
+    def rate(self, request):
+        try:
+            rating = int(request.data['rating'])
+        except (IndexError, ValueError):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            r = Rating.objects.update_or_create(creator=request.user,
+                                                lesson=self.get_object(),
+                                                defaults={"rate": rating})
+
+            return Response(RatingSerializer(r).data,
+                            status=status.HTTP_200_OK)
 
 
 # API Authorization

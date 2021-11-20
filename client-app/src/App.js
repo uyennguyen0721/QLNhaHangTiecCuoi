@@ -19,6 +19,7 @@ import ConferenceService from './components/pages/ConferenceService';
 import BirthdayService from './components/pages/BirthdayService';
 import ServiceDetail from './components/pages/ServiceDetail';
 import Profile from './components/pages/Profile';
+import Feedback from './components/pages/Feedback';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/profile' component={Profile} />
+          <Route exact path='/feedback' component={Feedback} />
         </Switch>
       </BrowserRouter>
   );

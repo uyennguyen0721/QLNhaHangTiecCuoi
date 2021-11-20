@@ -18,11 +18,24 @@ class Feedback(models.Model):
     class Meta:
         db_table = 'feedback'
 
-    date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
     content = models.TextField(null=True, blank=True)
-    rating = models.IntegerField(null=True)
 
-    user = models.ForeignKey(User, related_name='feedbacks', on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, related_name='feedbacks', on_delete=models.SET_NULL, null=True, unique=True)
+
+    def __str__(self):
+        return self.content
+
+
+class Rating(models.Model):
+    class Meta:
+        db_table = 'rating'
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    rate = models.PositiveSmallIntegerField(default=0)
+    user = models.ForeignKey(User, related_name='rates', on_delete=models.SET_NULL, null=True, unique=True)
 
 
 class WeddingLobby(models.Model):

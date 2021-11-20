@@ -8,6 +8,8 @@ import cookies from "react-cookies"
 import { logoutUser } from '../ActionCreators/UserCreators';
 import { Form, FormControl } from 'react-bootstrap';
 import { Search } from 'react-bootstrap-icons';
+import API, { endpoints } from '../../configs/API';
+import { getLobby } from '../ActionCreators/LobbyCreators';
 
 function Navbar() {
   const [click, setClick] = useState(false);
@@ -19,8 +21,12 @@ function Navbar() {
   const closeMobileMenu = () => setClick(false);
 
   const history = useHistory()
+
   const user = useSelector(state => state.user.user)
+  const lobby = useSelector(state => state.lobby.lobby)
   const dispatch = useDispatch()
+
+  const [arrayLobby, setArrayLobby] = useState(lobby);
 
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -29,6 +35,15 @@ function Navbar() {
       setButton(true);
     }
   };
+
+  useEffect(() => {
+    async function fetchAPI () {
+        let res = await API.get(endpoints['wedding_lobbies'])
+        setArrayLobby(res.data.results)
+        dispatch(getLobby(res.data))
+    }
+    fetchAPI()
+  }, [])
 
   useEffect(() => {
     showButton();
@@ -47,10 +62,28 @@ function Navbar() {
 
   window.addEventListener('scroll', changeBackground);
 
-  const search = (event) => {
+  const search = async (event) => {
     event.preventDefault()
-    history.push(`/menu-foods?q=${q}`)
-}
+    let arr = []
+    let bit = false
+    for(let i = 0; i < arrayLobby.length; i++){
+        arr[i] = arrayLobby[i].name.toLowerCase();
+    }
+
+    for(let i = 0; i < arr.length; i++){
+      if(arr[i].includes(q.toLowerCase()) === true){
+        bit = true
+        break
+      }
+    }
+
+    if(bit === true){
+      history.push(`/lobbies?q=${q}`);
+    }
+    else{
+      history.push(`/menu-foods?q=${q}`)
+    }
+  }
 
   const logout = (event) => {
     event.preventDefault()
@@ -119,6 +152,11 @@ function Navbar() {
             <li className='nav-item'>
               <Link to='/services' className='nav-links' onClick={closeMobileMenu}>
                 Dịch vụ
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link to='/feedback' className='nav-links' onClick={closeMobileMenu}>
+                Phản hồi
               </Link>
             </li>
 

@@ -46,7 +46,7 @@
   .nav-menu {
     display: grid;
     grid-template-columns: repeat(4, auto);
-    grid-gap: 10px;
+    grid-gap: 0px;
     list-style: none;
     text-align: center;
     width: 60vw;
@@ -55,7 +55,7 @@
   }
   
   .nav-item {
-    height: 80px;
+    height: 72px;
   }
   
   .nav-links {
@@ -112,7 +112,7 @@
   
     .nav-links {
       text-align: center;
-      padding: 2rem;
+      padding: 1.5rem;
       width: 100%;
       display: table;
     }

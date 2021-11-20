@@ -5,6 +5,7 @@ import cookies from 'react-cookies'
 import { useSelector } from 'react-redux'
 import { Button, Form, FormGroup, Modal } from 'react-bootstrap'
 import { Input, Label } from 'reactstrap'
+import Footer from '../layout/Footer';
 
 
 export default function Profile () {
@@ -32,9 +33,7 @@ export default function Profile () {
             setProfile(res.data)
         }
         fetchAPI()
-      }, [])
-    // console.log(profile.avatar)
-    // console.log(user)
+    }, [])
 
     const img = () => {
         if (profile.avatar !== null){
@@ -70,7 +69,6 @@ export default function Profile () {
                 console.error(err)
             }
         }
-        // console.log(user)
         editUser();
     }
 
@@ -84,7 +82,7 @@ export default function Profile () {
                             <div className="pro-img">
                                 {img()}
                             </div>
-                            <h3 className="m-b-0">{profile.first_name} {profile.last_name}</h3>
+                            <h2 className="m-b-0 h5">{profile.first_name} {profile.last_name}</h2>
                             <p>&#64; {profile.username}</p>
                             <button className="m-t-10 waves-effect waves-dark btn btn-primary btn-md btn-rounded" data-abc="true" onClick={handleShow}>Chỉnh sửa</button>
                             <Modal show={show} onHide={handleClose}>
@@ -135,28 +133,28 @@ export default function Profile () {
                                     </Button>
                                 </Modal.Footer>
                             </Modal>
-                            <div className="text-center m-t-20" style={{marginTop: "5%"}}>
+                            <div className="text-center m-t-20" style={{marginTop: "5%", marginBottom: "2%"}}>
                                 <div className="row m-t-20">
                                     <div className="col-md-3"></div>
-                                    <div className="col-md-3 m-b-0 font-light"><h5>Họ và tên</h5></div>
+                                    <div className="col-md-3 m-b-0 font-light"><h5 className="h5">Họ và tên</h5></div>
                                     <div className="col-md-3">{profile.first_name} {profile.last_name}</div>
                                     <div className="col-md-3"></div>
                                 </div>
                                 <div className="row m-t-20">
                                     <div className="col-md-3"></div>
-                                    <div className="col-md-3 m-b-0 font-light"><h5>Email</h5></div>
+                                    <div className="col-md-3 m-b-0 font-light"><h5 className="h5">Email</h5></div>
                                     <div className="col-md-3">{profile.email}</div>
                                     <div className="col-md-3"></div>
                                 </div>
                                 <div className="row m-t-20">
                                     <div className="col-md-3"></div>
-                                    <div className="col-md-3 m-b-0 font-light"><h5>Số điện thoại</h5></div>
+                                    <div className="col-md-3 m-b-0 font-light"><h5 className="h5">Số điện thoại</h5></div>
                                     <div className="col-md-3">{profile.phone}</div>
                                     <div className="col-md-3"></div>
                                 </div>
                                 <div className="row m-t-20">
                                     <div className="col-md-3"></div>
-                                    <div className="col-md-3 m-b-0 font-light"><h5>Địa chỉ</h5></div>
+                                    <div className="col-md-3 m-b-0 font-light"><h5 className="h5">Địa chỉ</h5></div>
                                     <div className="col-md-4">{profile.address}</div>
                                     <div className="col-md-2"></div>
                                 </div>
@@ -165,6 +163,7 @@ export default function Profile () {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }
