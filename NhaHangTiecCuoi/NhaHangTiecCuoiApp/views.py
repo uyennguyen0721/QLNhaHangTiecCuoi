@@ -185,6 +185,12 @@ class FeedbackViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = Feedback.objects.all()
     serializer_class = FeedBackSerializer
 
+    def get_permissions(self):
+        if self.action == 'add_feedback':
+            return [permissions.IsAuthenticated()]
+
+        return [permissions.AllowAny()]
+
     @action(methods=['post'], detail=False, url_path="add-feedback")
     def add_feedback(self, request):
         content = request.data.get('content')
@@ -197,19 +203,23 @@ class FeedbackViewSet(viewsets.ViewSet, generics.ListAPIView):
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    @action(methods=['post'], detail=False, url_path='rating')
-    def rate(self, request):
-        try:
-            rating = int(request.data['rating'])
-        except (IndexError, ValueError):
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        else:
-            r = Rating.objects.update_or_create(creator=request.user,
-                                                lesson=self.get_object(),
-                                                defaults={"rate": rating})
+    # @action(methods=['post'], detail=False, url_path='rating')
+    # def rate(self, request):
+    #     try:
+    #         rating = int(request.data['rating'])
+    #     except (IndexError, ValueError):
+    #         return Response(status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         r = Rating.objects.update_or_create(user=request.user,
+    #                                             defaults={"rate": rating})
+    #
+    #         return Response(RatingSerializer(r).data,
+    #                         status=status.HTTP_200_OK)
 
-            return Response(RatingSerializer(r).data,
-                            status=status.HTTP_200_OK)
+
+class RatingViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIView):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
 
 
 # API Authorization

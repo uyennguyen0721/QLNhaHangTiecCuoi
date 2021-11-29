@@ -19,6 +19,7 @@ router.register('wedding_event', views.WeddingEventViewSet, basename='wedding_ev
 router.register('conference_event', views.ConferenceEventViewSet, basename='conference_event')
 router.register('birthday_event', views.BirthdayEventViewSet, basename='birthday_event')
 router.register('feedback', views.FeedbackViewSet, basename='feedback')
+router.register('rating', views.RatingViewSet, basename='rating')
 
 urlpatterns = [
     path('admin/', admin_site.urls),

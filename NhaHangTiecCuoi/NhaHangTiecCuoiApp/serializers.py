@@ -154,4 +154,12 @@ class FeedBackSerializer(ModelSerializer):
 class RatingSerializer(ModelSerializer):
     class Meta:
         model = Rating
-        fields = ["id", "rate", "created_date"]
+        fields = ['id', 'rate', 'created_date', 'updated_date', 'user']
+
+    # def create(self, validated_data, requests):
+    #     rating = Rating(**validated_data)
+    #     rating.rate = int(requests.rate)
+    #     rating.user = requests.user
+    #     rating.update_or_create()
+    #
+    #     return rating
