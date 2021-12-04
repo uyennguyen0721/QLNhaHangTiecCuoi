@@ -5,18 +5,29 @@ import { Button } from "../layout/Button";
 import Footer from '../layout/Footer';
 import HeaderSection from './HeaderSection';
 import API, { endpoints } from '../../configs/API'
+import { useLocation } from 'react-router';
 
 export default function Lobbies() {
 
     const [lobby, setLobby] = useState([])
+    const locations = useLocation()
 
     useEffect(() => {
-        async function fetchAPI () {
-            let res = await API.get(endpoints['wedding_lobbies'])
-            setLobby(res.data.results)
+        let loadLobbies = async () => {
+            let query1 = locations.search
+            try {
+                let res = await API.get(`${endpoints['wedding_lobbies']}${query1}`)
+
+                setLobby(res.data.results)
+            }
+            catch (err) {
+                console.error(err)
+            }
         }
-        fetchAPI()
-    })
+
+        loadLobbies()
+
+    }, [locations.search])
 
   return (
     <>

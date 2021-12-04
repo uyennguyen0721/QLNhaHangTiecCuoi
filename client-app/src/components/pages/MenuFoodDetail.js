@@ -12,12 +12,12 @@ export default function MenuFoodDetail () {
     let [ foods, setFoods] = useState([])
 
     useEffect(() => {
-        async function fetchAPI () {
-        let res = await API.get(endpoints['menu_foods_detail'](foodId))
-        setFoods(res.data)
+            async function fetchAPI () {
+            let res = await API.get(endpoints['menu_foods_detail'](foodId))
+            setFoods(res.data)
         }
         fetchAPI()
-    })
+    }, [])
 
     if(foods === null || foods === undefined){
         return <Spinner animation="border"/>
