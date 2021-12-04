@@ -16,7 +16,7 @@ export default function FoodType () {
             setFoodType(res.data.results)
         }
         fetchAPI()
-    })
+    }, [])
 
     return (
         <>

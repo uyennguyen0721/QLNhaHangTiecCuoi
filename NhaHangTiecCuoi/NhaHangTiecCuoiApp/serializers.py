@@ -1,22 +1,10 @@
-from rest_framework.fields import SerializerMethodField
+from rest_framework.fields import SerializerMethodField, HiddenField, CurrentUserDefault
 from rest_framework.serializers import ModelSerializer
 from .models import *
 
 
 # API user*
 class UserSerializer(ModelSerializer):
-    # avatar = SerializerMethodField()
-    #
-    # def get_avatar(self, user):
-    #     request = self.context['request']
-    #     if user.avatar:
-    #         name = user.avatar.name
-    #         if name.startswith("static/"):
-    #             path = '/%s' % name
-    #         else:
-    #             path = '/static/%s' % name
-    #
-    #         return request.build_absolute_uri(path)
 
     def create(self, validated_data):
         user = User(**validated_data)
@@ -147,3 +135,28 @@ class ServiceTypeSerializer(ModelSerializer):
         model = ServiceType
         fields = ['id', 'name', 'event_type', 'services']
 
+
+# API Feedback
+
+class FeedBackSerializer(ModelSerializer):
+    user = SerializerMethodField()
+
+    def get_user(self, feedback):
+        return UserSerializer(feedback.user, context={"request": self.context.get('request')}).data
+
+    class Meta:
+        model = Feedback
+        fields = ['id', 'content', 'created_date', 'updated_date', 'user']
+
+
+# API Rating
+
+class RatingSerializer(ModelSerializer):
+    user = HiddenField(default=CurrentUserDefault())
+
+    def get_user(self, rating):
+        return UserSerializer(rating.user, context={"request": self.context.get('request')}).data
+
+    class Meta:
+        model = Rating
+        fields = ['id', 'rate', 'created_date', 'updated_date', 'user']

@@ -46,8 +46,8 @@ export default function Login() {
     return (
         <>
             <div className="row" style={{marginTop: "5%", marginLeft: "2%", marginRight: "2%"}}>
-                <div className="col-md-4"></div>
-                <div className="col-md-4 card" style={{marginBottom: "5%", backgroundColor: "#CECEF6"}}>
+                <div className="col-md-4 col-xs-12"></div>
+                <div className="col-md-4 col-xs-12 card" style={{marginBottom: "5%", backgroundColor: "#CECEF6"}}>
                     <div style={{margin: "5%"}}>
                         <h1 className="text-center text-danger">ĐĂNG NHẬP</h1>
                         <Form onSubmit={login} style={{marginTop: "5%"}}>
@@ -74,7 +74,7 @@ export default function Login() {
                         </Form>
                     </div>
                 </div>
-                <div className="col-md-4"></div>
+                <div className="col-md-4 col-xs-12"></div>
             </div>
         </>
     )

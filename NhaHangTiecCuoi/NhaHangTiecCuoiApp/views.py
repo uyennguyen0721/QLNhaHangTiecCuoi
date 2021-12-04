@@ -40,14 +40,46 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIVi
 # API lobby*
 
 class MenuLobbyViewSet(viewsets.ViewSet, generics.ListAPIView):
-    queryset = WeddingLobby.objects.all()
+    # queryset = WeddingLobby.objects.all()
     serializer_class = WeddingLobbySerializer
     pagination_class = BasePagination
+
+    def get_queryset(self):
+        lobbies = WeddingLobby.objects.all()
+
+        q = self.request.query_params.get('q')
+        if q is not None:
+            lobbies = lobbies.filter(name__icontains=q)
+
+        return lobbies
 
 
 class WeddingLobbyViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
     queryset = WeddingLobby.objects.all()
     serializer_class = WeddingLobbyDetailsSerializer
+
+    def get_queryset(self):
+        lobbies = WeddingLobby.objects.all()
+
+        q = self.request.query_params.get('q')
+        if q is not None:
+            lobbies = lobbies.filter(name__icontains=q)
+
+        return lobbies
+
+
+class WeddingLobbyPriceViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
+    # queryset = WeddingLobby.objects.all()
+    serializer_class = WeddingLobbyPriceSerializer
+
+    def get_queryset(self):
+        prices = WeddingLobbyPrice.objects.all()
+
+        q = self.request.query_params.get('q')
+        if q is not None:
+            prices = prices.filter(price__lte=q)
+
+        return prices
 
 
 # API menu-drink*
@@ -115,9 +147,18 @@ class ServiceTypeViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 
 class ServiceViewSet(viewsets.ViewSet, generics.ListAPIView):
-    queryset = Service.objects.filter(active=True)
+    # queryset = Service.objects.filter(active=True)
     serializer_class = ServiceSerializer
     pagination_class = BasePagination
+
+    def get_queryset(self):
+        services = Service.objects.filter(active=True)
+
+        q = self.request.query_params.get('q')
+        if q is not None:
+            services = services.filter(name__icontains=q)
+
+        return services
 
 
 class WeddingEventViewSet(viewsets.ViewSet, generics.ListAPIView):
@@ -136,6 +177,48 @@ class BirthdayEventViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = ServiceType.objects.filter(event_type=3)
     serializer_class = ServiceTypeSerializer
     pagination_class = BasePagination
+
+
+# API Feedback
+
+class FeedbackViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = Feedback.objects.order_by("-id").all()
+    serializer_class = FeedBackSerializer
+
+    def get_permissions(self):
+        if self.action == 'add_feedback':
+            return [permissions.IsAuthenticated()]
+
+        return [permissions.AllowAny()]
+
+    @action(methods=['post'], detail=False, url_path="add_feedback")
+    def add_feedback(self, request):
+        content = request.data.get('content')
+        if content:
+            f = Feedback.objects.create(content=content,
+                                        user=request.user)
+
+            return Response(FeedBackSerializer(f, context={"request": request}).data,
+                            status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# API Rating
+
+class RatingViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIView, generics.ListAPIView):
+    serializer_class = RatingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        usr = self.request.user
+        return Rating.objects.filter(user=usr)
+
+    def partial_update(self, request, *args, **kwargs):
+        if request.user == self.get_object().user:
+            return super().partial_update(request, *args, **kwargs)
+
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 # API Authorization

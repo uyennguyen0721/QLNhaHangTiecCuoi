@@ -15,13 +15,7 @@ function Footer() {
         </p>
         <div className='input-areas'>
           <form>
-            <input
-              className='footer-input'
-              name='email'
-              type='email'
-              placeholder='Nhập email của bạn'
-            />
-            <Button buttonStyle='btn--outline'>Đăng ký</Button>
+            <Button to="/register" buttonStyle='btn--outline'>Đăng ký ngay</Button>
           </form>
         </div>
       </section>

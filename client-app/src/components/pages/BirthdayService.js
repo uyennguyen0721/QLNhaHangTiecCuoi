@@ -25,7 +25,7 @@ export default function BirthdayService () {
             setBirthdayServiceType(res.data.results)
         }
         fetchAPI()
-    })
+    }, [])
 
     return (
         <>

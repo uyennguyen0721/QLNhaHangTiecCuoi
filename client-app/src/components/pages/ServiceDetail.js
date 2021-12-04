@@ -17,7 +17,7 @@ export default function ServiceDetail () {
             setService(res.data)
         }
         fetchAPI()
-    })
+    }, [])
 
     if(service === null || service === undefined){
         return <Spinner animation="border"/>
