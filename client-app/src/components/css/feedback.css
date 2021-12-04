@@ -1,11 +1,15 @@
 .feedback-bg {
-    text-align: center;
     padding: 5%;
     background: #fff;
     font-family: 'Nunito', sans-serif;
 }
 .feedback-bg h1 {
     text-align: center;
+    color: #3104B4;
+    font-family: 'Nunito', sans-serif;
+}
+
+.feedback-bg h5 {
     color: #3104B4;
     font-family: 'Nunito', sans-serif;
 }

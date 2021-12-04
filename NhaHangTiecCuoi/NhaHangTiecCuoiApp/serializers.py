@@ -1,4 +1,4 @@
-from rest_framework.fields import SerializerMethodField
+from rest_framework.fields import SerializerMethodField, HiddenField, CurrentUserDefault
 from rest_framework.serializers import ModelSerializer
 from .models import *
 
@@ -152,14 +152,11 @@ class FeedBackSerializer(ModelSerializer):
 # API Rating
 
 class RatingSerializer(ModelSerializer):
+    user = HiddenField(default=CurrentUserDefault())
+
+    def get_user(self, rating):
+        return UserSerializer(rating.user, context={"request": self.context.get('request')}).data
+
     class Meta:
         model = Rating
         fields = ['id', 'rate', 'created_date', 'updated_date', 'user']
-
-    # def create(self, validated_data, requests):
-    #     rating = Rating(**validated_data)
-    #     rating.rate = int(requests.rate)
-    #     rating.user = requests.user
-    #     rating.update_or_create()
-    #
-    #     return rating

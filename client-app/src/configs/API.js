@@ -16,7 +16,11 @@ export let endpoints = {
     "login": "/o/token/",
     "current-user": "/users/current-user/",
     "register": "/users/",
-    "update_user": (userId) => `/users/${userId}/`
+    "update_user": (userId) => `/users/${userId}/`,
+    "rating": "/rating/",
+    "update_rating": (ratingId) => `/rating/${ratingId}/`,
+    "add_comment": "/feedback/add_feedback/",
+    "comments": "/feedback/"
 }
 
 export default axios.create({

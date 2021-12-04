@@ -182,7 +182,7 @@ class BirthdayEventViewSet(viewsets.ViewSet, generics.ListAPIView):
 # API Feedback
 
 class FeedbackViewSet(viewsets.ViewSet, generics.ListAPIView):
-    queryset = Feedback.objects.all()
+    queryset = Feedback.objects.order_by("-id").all()
     serializer_class = FeedBackSerializer
 
     def get_permissions(self):
@@ -191,7 +191,7 @@ class FeedbackViewSet(viewsets.ViewSet, generics.ListAPIView):
 
         return [permissions.AllowAny()]
 
-    @action(methods=['post'], detail=False, url_path="add-feedback")
+    @action(methods=['post'], detail=False, url_path="add_feedback")
     def add_feedback(self, request):
         content = request.data.get('content')
         if content:
@@ -203,23 +203,22 @@ class FeedbackViewSet(viewsets.ViewSet, generics.ListAPIView):
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    # @action(methods=['post'], detail=False, url_path='rating')
-    # def rate(self, request):
-    #     try:
-    #         rating = int(request.data['rating'])
-    #     except (IndexError, ValueError):
-    #         return Response(status=status.HTTP_400_BAD_REQUEST)
-    #     else:
-    #         r = Rating.objects.update_or_create(user=request.user,
-    #                                             defaults={"rate": rating})
-    #
-    #         return Response(RatingSerializer(r).data,
-    #                         status=status.HTTP_200_OK)
 
+# API Rating
 
-class RatingViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIView):
-    queryset = Rating.objects.all()
+class RatingViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIView, generics.ListAPIView):
     serializer_class = RatingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        usr = self.request.user
+        return Rating.objects.filter(user=usr)
+
+    def partial_update(self, request, *args, **kwargs):
+        if request.user == self.get_object().user:
+            return super().partial_update(request, *args, **kwargs)
+
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 # API Authorization

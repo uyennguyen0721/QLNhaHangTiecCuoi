@@ -10,6 +10,7 @@ import { Form, FormControl } from 'react-bootstrap';
 import { Search } from 'react-bootstrap-icons';
 import API, { endpoints } from '../../configs/API';
 import { getLobby } from '../ActionCreators/LobbyCreators';
+import { getRating } from '../ActionCreators/RatingCreators';
 
 function Navbar() {
   const [click, setClick] = useState(false);

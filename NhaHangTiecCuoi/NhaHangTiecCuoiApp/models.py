@@ -22,7 +22,7 @@ class Feedback(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     content = models.TextField(null=True, blank=True)
 
-    user = models.ForeignKey(User, related_name='feedbacks', on_delete=models.SET_NULL, null=True, unique=True)
+    user = models.ForeignKey(User, related_name='feedbacks', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.content
