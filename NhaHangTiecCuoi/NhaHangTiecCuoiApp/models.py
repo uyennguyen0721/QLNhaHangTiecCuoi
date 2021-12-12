@@ -157,6 +157,7 @@ class Invoice(models.Model):
     rental_date = models.DateTimeField(null=False)
     created_date = models.DateTimeField(auto_now_add=True)
     lobby_price = FloatField(null=False)
+    session = models.IntegerField(null=False, default=1)
     totalBill = FloatField(null=False)
 
     wedding_lobby = models.ForeignKey(WeddingLobby, related_name="invoices_lobby", on_delete=models.SET_NULL, null=True)
