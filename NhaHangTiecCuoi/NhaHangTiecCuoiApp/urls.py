@@ -8,6 +8,7 @@ from .admin import admin_site
 router = DefaultRouter()
 router.register('users', views.UserViewSet, basename='user')
 router.register('wedding_lobbies', views.WeddingLobbyViewSet, basename='lobby')
+router.register('wedding_lobby_price', views.WeddingLobbyPriceViewSet, basename='lobby_price')
 router.register('wedding_lobbies', views.MenuLobbyViewSet, basename='lobby')
 router.register('menu_drinks', views.MenuDrinkViewSet, basename='drink')
 router.register('menu_foods', views.MenuFoodViewSet, basename='food')
@@ -20,6 +21,11 @@ router.register('conference_event', views.ConferenceEventViewSet, basename='conf
 router.register('birthday_event', views.BirthdayEventViewSet, basename='birthday_event')
 router.register('feedback', views.FeedbackViewSet, basename='feedback')
 router.register('rating', views.RatingViewSet, basename='rating')
+router.register('party', views.InvoiceViewSet, basename='party')
+router.register('party', views.FoodBillViewSet, basename='party')
+router.register('party', views.DrinkBillViewSet, basename='party')
+router.register('party', views.ServiceBillViewSet, basename='party')
+router.register('payment_method', views.PaymentMethodViewSet, basename='payment_method')
 
 urlpatterns = [
     path('admin/', admin_site.urls),

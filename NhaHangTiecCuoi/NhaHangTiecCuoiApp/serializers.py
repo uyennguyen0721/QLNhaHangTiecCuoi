@@ -3,7 +3,8 @@ from rest_framework.serializers import ModelSerializer
 from .models import *
 
 
-# API user*
+# API user
+
 class UserSerializer(ModelSerializer):
 
     def create(self, validated_data):
@@ -22,11 +23,12 @@ class UserSerializer(ModelSerializer):
         }
 
 
-# API sảnh tiệc*
+# API sảnh tiệc
+
 class WeddingLobbyPriceSerializer(ModelSerializer):
     class Meta:
         model = WeddingLobbyPrice
-        fields = ['id', 'time', 'is_weekend', 'price', ]
+        fields = ['id', 'time', 'is_weekend', 'price', 'wedding_lobby']
 
 
 class WeddingLobbySerializer(ModelSerializer):
@@ -54,7 +56,8 @@ class WeddingLobbyDetailsSerializer(WeddingLobbySerializer):
         return request.build_absolute_uri(path)
 
 
-# API menu-drink*
+# API menu-drink
+
 class MenuDrinkSerializer(ModelSerializer):
     image = SerializerMethodField()
 
@@ -73,8 +76,7 @@ class MenuDrinkSerializer(ModelSerializer):
         return request.build_absolute_uri(path)
 
 
-# API menu-food*
-
+# API menu-food
 
 class MenuFoodSerializer(ModelSerializer):
     image = SerializerMethodField()
@@ -160,3 +162,45 @@ class RatingSerializer(ModelSerializer):
     class Meta:
         model = Rating
         fields = ['id', 'rate', 'created_date', 'updated_date', 'user']
+
+
+# API Book a party
+
+class InvoiceSerializer(ModelSerializer):
+    foods = MenuFoodSerializer(many=True)
+    drinks = MenuDrinkSerializer(many=True)
+    services = ServiceSerializer(many=True)
+
+    def get_user(self, rating):
+        return UserSerializer(rating.user, context={"request": self.context.get('request')}).data
+
+    class Meta:
+        model = Invoice
+        fields = ['id', 'party_name', 'table_quantity', 'rental_date', 'created_date', 'lobby_price', 'session',
+                  'totalBill', 'wedding_lobby', 'user', 'payment_method', 'foods', 'drinks', 'services']
+
+
+class DrinkBillSerializer(ModelSerializer):
+    class Meta:
+        model = DrinkBillDetail
+        fields = ['id', 'unit_price', 'quantity', 'unit', 'menu_drink', 'invoice']
+
+
+class FoodBillSerializer(ModelSerializer):
+    class Meta:
+        model = FoodBillDetail
+        fields = ['id', 'unit_price', 'menu_food', 'invoice']
+
+
+class ServiceBillSerializer(ModelSerializer):
+    class Meta:
+        model = ServiceBillDetail
+        fields = ['id', 'unit_price', 'service', 'invoice']
+
+
+# API Payment Method
+
+class PaymentMethodSerializer(ModelSerializer):
+    class Meta:
+        model = PaymentMethod
+        fields = ['id', 'name']

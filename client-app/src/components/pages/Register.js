@@ -49,8 +49,11 @@ export default function Register() {
           <div className="row" style={{marginLeft: "2%", marginRight: "2%"}}>
             <div className="col-md-4 col-xs-12"></div>
             <div className="col-md-4 col-xs-12 card" style={{marginBottom: "5%", marginTop: "2%", backgroundColor: "#CECEF6"}}>
-              <div>
-                <h1 className="text-center text-danger">ĐĂNG KÝ</h1>
+              <div style={{margin: "5%"}}>
+                <div style={{textAlign: "center"}}>
+                    <img src="/logo.png" alt="logo" width={200}/>
+                </div>
+                <h2 className="text-center text-danger">ĐĂNG KÝ</h2>
                 <Form onSubmit={register}>
                     <RegisterForm id="lastName" label="Họ"
                                     type="text" value={lastName} placeholder="Họ"

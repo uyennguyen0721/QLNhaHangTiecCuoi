@@ -26,7 +26,6 @@ class NhaHangTiecCuoiAppAdminSite(admin.AdminSite):
         })
 
 
-
 admin_site = NhaHangTiecCuoiAppAdminSite(name='myadmin')
 
 

@@ -9,8 +9,8 @@ class User(AbstractUser):
     class Meta:
         db_table = 'user'
 
-    phone = models.CharField(max_length=50, null=False)
-    address = models.CharField(max_length=100, null=False)
+    phone = models.CharField(max_length=50, null=True)
+    address = models.CharField(max_length=100, null=True)
     avatar = models.ImageField(upload_to='img/avatar/%Y/%m')
 
 
@@ -162,10 +162,11 @@ class Invoice(models.Model):
 
     wedding_lobby = models.ForeignKey(WeddingLobby, related_name="invoices_lobby", on_delete=models.SET_NULL, null=True)
     payment_method = models.ForeignKey(PaymentMethod, related_name="invoices_pay", on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, related_name="invoices_user", on_delete=models.SET_NULL, null=True)
 
-    foods = models.ManyToManyField(MenuFood, related_name="invoice_foods", blank=True, null=True)
+    foods = models.ManyToManyField(MenuFood, related_name="invoice_foods", blank=True, null=True, through="FoodBillDetail")
     drinks = models.ManyToManyField(MenuDrink, related_name="invoice_drinks", blank=True, null=True, through="DrinkBillDetail")
-    services = models.ManyToManyField(Service, related_name="invoice_services", blank=True, null=True)
+    services = models.ManyToManyField(Service, related_name="invoice_services", blank=True, null=True, through="ServiceBillDetail")
 
 
 class DrinkBillDetail(models.Model): #model trung gian
@@ -176,4 +177,22 @@ class DrinkBillDetail(models.Model): #model trung gian
     unit = models.CharField(max_length=50, null=False)
 
     menu_drink = models.ForeignKey(MenuDrink, on_delete=models.SET_NULL, null=True)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+
+
+class FoodBillDetail(models.Model): #model trung gian
+    class Meta:
+        db_table = "food_bill_detail"
+    unit_price = models.FloatField(null=False)
+
+    menu_food = models.ForeignKey(MenuFood, on_delete=models.SET_NULL, null=True)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+
+
+class ServiceBillDetail(models.Model): #model trung gian
+    class Meta:
+        db_table = "service_bill_detail"
+    unit_price = models.FloatField(null=False)
+
+    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True)
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)

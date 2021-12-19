@@ -1,5 +1,7 @@
 from django.conf import settings
+from django.http import Http404
 from django.shortcuts import render
+import dateutil.parser as parser
 
 # Create your views here.
 # from oauth2_provider.contrib.rest_framework import permissions
@@ -68,8 +70,8 @@ class WeddingLobbyViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
         return lobbies
 
 
-class WeddingLobbyPriceViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
-    # queryset = WeddingLobby.objects.all()
+class WeddingLobbyPriceViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = WeddingLobbyPrice.objects.all()
     serializer_class = WeddingLobbyPriceSerializer
 
     def get_queryset(self):
@@ -219,6 +221,119 @@ class RatingViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPI
             return super().partial_update(request, *args, **kwargs)
 
         return Response(status=status.HTTP_403_FORBIDDEN)
+
+
+# API Book a party
+
+class InvoiceViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = Invoice.objects.order_by('-id').all()
+    serializer_class = InvoiceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(methods=['post'], detail=False, url_path="book_party")
+    def book_party(self, request):
+        party_name = request.data.get('party_name')
+        table_quantity = request.data.get('table_quantity')
+        rental_date = request.data.get('rental_date')
+        lobby_price = request.data.get('lobby_price')
+        session = request.data.get('session')
+        total_bill = request.data.get('totalBill')
+        wedding_lobby = request.data.get('wedding_lobby')
+        payment_method = request.data.get('payment_method')
+        payment = PaymentMethod.objects.get(id=payment_method)
+        lobby = WeddingLobby.objects.get(id=wedding_lobby)
+        date = parser.parse(rental_date, fuzzy=True)
+
+        if party_name and table_quantity and rental_date and rental_date and lobby_price \
+                and session and total_bill and wedding_lobby and payment_method:
+            f = Invoice.objects.create(party_name=party_name,
+                                       table_quantity=table_quantity,
+                                       rental_date=date,
+                                       lobby_price=lobby_price,
+                                       totalBill=total_bill,
+                                       session=session,
+                                       wedding_lobby=lobby,
+                                       payment_method=payment,
+                                       user=request.user)
+
+            return Response(InvoiceSerializer(f, context={"request": request}).data,
+                            status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class FoodBillViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = FoodBillDetail.objects.all()
+    serializer_class = FoodBillSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(methods=['post'], detail=False, url_path="book_foods")
+    def book_food(self, request):
+        foods = request.data.get("foods")
+
+        if foods:
+            for food in foods:
+                menu = MenuFood.objects.get(id=food['menu_food'])
+                invoice = Invoice.objects.get(id=food['invoice'])
+                FoodBillDetail.objects.create(unit_price=food['unit_price'],
+                                              menu_food=menu,
+                                              invoice=invoice)
+            return Response(status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class DrinkBillViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = DrinkBillDetail.objects.all()
+    serializer_class = DrinkBillSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(methods=['post'], detail=False, url_path="book_drinks")
+    def book_drink(self, request):
+        drinks = request.data.get("drinks")
+
+        if drinks:
+            for drink in drinks:
+                menu = MenuDrink.objects.get(id=drink['menu_drink'])
+                invoice = Invoice.objects.get(id=drink['invoice'])
+                DrinkBillDetail.objects.create(unit_price=drink['unit_price'],
+                                               quantity=drink['quantity'],
+                                               unit=drink['unit'],
+                                               menu_drink=menu,
+                                               invoice=invoice)
+
+            return Response(status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ServiceBillViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = ServiceBillDetail.objects.all()
+    serializer_class = ServiceBillSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(methods=['post'], detail=False, url_path="book_services")
+    def book_service(self, request):
+        services = request.data.get("services")
+
+        if services:
+            for service in services:
+                service = MenuDrink.objects.get(id=service['service'])
+                invoice = Invoice.objects.get(id=service['invoice'])
+                ServiceBillDetail.objects.create(unit_price=service['unit_price'],
+                                                 service=service,
+                                                 invoice=invoice)
+
+            return Response(status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# API Payment Method
+
+class PaymentMethodViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = PaymentMethod.objects.order_by('id').all()
+    serializer_class = PaymentMethodSerializer
 
 
 # API Authorization
