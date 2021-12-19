@@ -22,9 +22,9 @@ router.register('birthday_event', views.BirthdayEventViewSet, basename='birthday
 router.register('feedback', views.FeedbackViewSet, basename='feedback')
 router.register('rating', views.RatingViewSet, basename='rating')
 router.register('party', views.InvoiceViewSet, basename='party')
-router.register('party', views.FoodBillViewSet, basename='party')
-router.register('party', views.DrinkBillViewSet, basename='party')
-router.register('party', views.ServiceBillViewSet, basename='party')
+# router.register('party', views.FoodBillViewSet, basename='party')
+# router.register('party', views.DrinkBillViewSet, basename='party')
+# router.register('party', views.ServiceBillViewSet, basename='party')
 router.register('payment_method', views.PaymentMethodViewSet, basename='payment_method')
 
 urlpatterns = [

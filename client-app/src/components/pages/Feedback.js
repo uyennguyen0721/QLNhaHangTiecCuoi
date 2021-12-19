@@ -122,9 +122,6 @@ export default function Feedback () {
         }
     }
 
-    // console.log(rating)
-    // console.log(comments)
-
     let r = ""
     let comment = <div style={{textAlign: "center"}}><em><Link to="/login">Đăng nhập</Link> để bình luận</em></div>
     if (user !== null && user !== undefined) {

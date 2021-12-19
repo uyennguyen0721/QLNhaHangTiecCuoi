@@ -25,9 +25,9 @@ export let endpoints = {
     "payment_method": "/payment_method/",
     "invoice": "/party/",
     "book_party": "/party/book_party/",
-    "book_food": "/party/book_foods/",
-    "book_drink": "/party/book_drinks",
-    "book_service": "/party/book_services"
+    // "book_food": "/party/book_foods/",
+    // "book_drink": "/party/book_drinks",
+    // "book_service": "/party/book_services"
 }
 
 export default axios.create({

@@ -24,23 +24,23 @@ const Checkbox = ({ type = "checkbox", checked = false, onChange, item }) => {
 export default function BookParty () {
     const [startDate, setStartDate] = useState(new Date());
     const [tableQuantity, setTableQuantity] = useState(0);
-    const [session, setSession] = useState(1);
+    const [session, setSession] = useState(0);
     const [partyName, setPartyName] = useState("")
     const [getLobby, setGetLobby] = useState([])
-    const [lobbyId, setLobbyId] = useState(1)
+    const [lobbyId, setLobbyId] = useState(0)
     const [eventType, setEventType] = useState(0)
     const [getFood, setGetFood] = useState([])
     const [getDrink, setGetDrink] = useState([])
     const [getService, setGetService] = useState([])
     const [getPaymentMethod, setGetPaymentMethod] = useState([])
-    const [paymentId, setPaymentId] = useState(1)
+    const [paymentId, setPaymentId] = useState(0)
     const [checkedFoods, setCheckedFoods] = useState([]);
     const [checkedDrinks, setCheckedDrinks] = useState([]);
     const [checkedServices, setCheckedServices] = useState([]);
     const [lobbyPrice, setLobbyPrice] = useState([]);
-    const [invoiceId, setInvoiceId] = useState(1);
     const today = new Date()
 
+    // Các hàm show modal
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -59,6 +59,7 @@ export default function BookParty () {
         setShow2(true);
     }
 
+    // Các option trong select box
     const options = [
         { value: 1, label: 'Buổi sáng' },
         { value: 2, label: 'Buổi trưa' },
@@ -71,6 +72,7 @@ export default function BookParty () {
         { value: 3, label: 'Sinh nhật' }
     ]
 
+    // Đặt số lượng của từng đồ uống theo số lượng bàn
     const setQuantity = (unit, name) => {
         let quantity = 0;
         if(tableQuantity !== 0){
@@ -100,6 +102,7 @@ export default function BookParty () {
         return quantity;
     }
 
+    // Lấy danh sách món ăn khách hàng lựa chọn
     const handleChangeFoods = (item) => {
         // kiểm tra có tồn tại trong mảng -> TH không
         if(checkedFoods.filter(d => d.id === item.id).length === 0) {
@@ -110,6 +113,7 @@ export default function BookParty () {
         console.log("checkedFoods: ", checkedFoods);
       };
 
+    // Lấy danh sách đồ uống khách hàng lựa chọn
     const handleChangeDrinks = (item) => {
         // kiểm tra có tồn tại trong mảng -> TH không
         if(checkedDrinks.filter(d => d.id === item.id).length === 0) {
@@ -128,6 +132,7 @@ export default function BookParty () {
         console.log("checkedDrinks: ",checkedDrinks);
     };
 
+    // Lấy danh sách dịch vụ khách hàng lựa chọn
     const handleChangeServices = (item) => {
         // kiểm tra có tồn tại trong mảng -> TH không
         if(checkedServices.filter(d => d.id === item.id).length === 0) {
@@ -152,6 +157,7 @@ export default function BookParty () {
     }
 
     useEffect(() => {
+        // Lấy danh sách sảnh tiệc
         let getLobbies = async () => {
             try {
                 let res = await API.get(`${endpoints['wedding_lobbies']}`)
@@ -164,6 +170,7 @@ export default function BookParty () {
             }
         }
 
+        // Lấy danh sách món ăn
         let getFoods = async () => {
             try {
                 let res = await API.get(`${endpoints['food_type']}`)
@@ -176,6 +183,7 @@ export default function BookParty () {
             }
         }
 
+        // Lấy danh sách đồ uống
         let getDrinks = async () => {
             try {
                 let res = await API.get(`${endpoints['menu_drinks']}`)
@@ -188,6 +196,7 @@ export default function BookParty () {
             }
         }
 
+        // Lấy các lựa chọn thanh toán
         let getPaymentMethods = async () => {
             try {
                 let res = await API.get(`${endpoints['payment_method']}`)
@@ -200,6 +209,7 @@ export default function BookParty () {
             }
         }
 
+        // Lấy danh sách giá của sảnh tiệc
         let getLobbyPrices = async () => {
             try {
                 let res = await API.get(`${endpoints['wedding_lobby_price']}`)
@@ -212,22 +222,6 @@ export default function BookParty () {
             }
         }
 
-        let invoice = async () => {
-            try {
-                let res = await API.get(endpoints['invoice'], {
-                    headers: {
-                        "Authorization": `Bearer ${cookies.load("access_token")}`
-                    }
-                })
-                console.info("id " + res.data.results[0].id)
-                setInvoiceId(res.data.results[0].id + 1)
-            }
-            catch (err) {
-                console.error(err)
-            }
-        }
-
-        invoice()
         getLobbies()
         getFoods()
         getDrinks()
@@ -236,8 +230,8 @@ export default function BookParty () {
     }, [])
 
     console.log(lobbyPrice)
-    console.log("invoice: " + invoiceId)
 
+    // Lấy danh sách dịch vụ theo từng loại sự kiện
     let getServices = async () => {
         try {
             let res = await API.get(`${endpoints['wedding_event']}`);
@@ -260,9 +254,7 @@ export default function BookParty () {
         }
     }
 
-    // console.log(getFood)
-    // console.info(eventType)
-
+    // Lấy danh sách sảnh tiệc để hiển thị lên select box
     const listLobby = () => {
         let options1 = []
         for(let i = 0; i < getLobby.length; i++){
@@ -273,6 +265,7 @@ export default function BookParty () {
         return options1;
     }
 
+    // Hiển thị danh sách món ăn lên check box modal
     const listFoods = (types) => {
         let foods = []
         for(let i = 0; i < types.menu_foods.length; i++){
@@ -294,6 +287,7 @@ export default function BookParty () {
         return getItems;
     }
 
+    // Kiểm tra xem button đủ điều kiện để disable hay isValid
     const checkedDisable = (name, onClick, x) => {
         if (x > 0){
             return  <Button variant="primary" onClick={onClick}>
@@ -307,6 +301,7 @@ export default function BookParty () {
         }
     }
 
+    // Hiển thị danh sách đồ uống trên checkbox modal
     const listDrinks = (types) => {
         let drinks = []
         for(let i = 0; i < types.length; i++){
@@ -343,6 +338,7 @@ export default function BookParty () {
         return getItems1;
     }
 
+    // Hiển thị danh sách dịch vụ lên checkbox modal
     const listServices = (types) => {
         let services = []
         for(let i = 0; i < types.services.length; i++){
@@ -364,8 +360,7 @@ export default function BookParty () {
         return getItems2;
     }
 
-    // console.log(paymentId)
-
+    // Kiểm tra có phải cuối tuần hay không
     const checkedWeekend = (date) => {
         if(date.getDay() === 0 || date.getDay() === 6) {
             return true;
@@ -375,8 +370,7 @@ export default function BookParty () {
         }
     }
 
-    // tổng tiền
-
+    // Tính tổng tiền
     const total = () => {
         let totalPrice = 0;
         if(tableQuantity > 0){
@@ -393,6 +387,7 @@ export default function BookParty () {
         return totalPrice;
     }
 
+    // Đặt tiệc
     const bookParty = (event) => {
         event.preventDefault();
         if(tableQuantity > 0) {
@@ -402,112 +397,61 @@ export default function BookParty () {
             console.log("price: " + price)
             console.log("bill: " + bill)
 
-            let bookFood = async () => {
-                try {
-                    let foods = []
-                    let food = {}
-                    for (let i = 0; i < checkedFoods.length; i++){
-                        food = {
-                            unit_price: checkedFoods[i].price,
-                            menu_food: checkedFoods[i].id,
-                            invoice: invoiceId
-                        }
-                        console.info("food")
-                        foods.push(food);
+            let party = async () => {
+                let foods = []
+                let food = {}
+                for (let i = 0; i < checkedFoods.length; i++){
+                    food = {
+                        unit_price: checkedFoods[i].price,
+                        menu_food: checkedFoods[i].id,
+                        // invoice: invoiceId
                     }
-                    let res = await API.post(endpoints['book_food'], {
-                        "foods": foods
-                    }, {
-                        headers: {
-                            "Authorization": `Bearer ${cookies.load("access_token")}`
-                        }
-                    })
-
-                    console.info("foods")
-                    console.info(res.data)
-                } catch (err) {
-                    console.error(err)
+                    console.info("food")
+                    foods.push(food);
                 }
-            }
 
-            let bookDrink = async () => {
-                try {
-                    let drinks = []
-                    let drink = {}
-                    for (let i = 0; i < checkedDrinks.length; i++){
-                        drink = {
-                            unit_price: checkedDrinks[i].price,
-                            quantity: checkedDrinks[i].quantity,
-                            unit: checkedDrinks[i].unit,
-                            menu_drink: checkedDrinks[i].id,
-                            invoice: invoiceId
-                        }
-                        console.info("drink")
-                        drinks.push(drink);
+                let drinks = []
+                let drink = {}
+                for (let i = 0; i < checkedDrinks.length; i++){
+                    drink = {
+                        unit_price: checkedDrinks[i].price,
+                        quantity: checkedDrinks[i].quantity,
+                        unit: checkedDrinks[i].unit,
+                        menu_drink: checkedDrinks[i].id
                     }
-                    let res1 = await API.post(endpoints['book_drink'], {
-                        "drinks": drinks
-                    }, {
-                        headers: {
-                            "Authorization": `Bearer ${cookies.load("access_token")}`
-                        }
-                    })
-
-                    console.info("drinks")
-                    console.info(res1.data)
-                } catch (err) {
-                    console.error(err)
+                    console.info("drink")
+                    drinks.push(drink);
                 }
-            }
 
-            let bookService = async () => {
-                try {
-                    let services = []
-                    let service = {}
-                    for (let i = 0; i < checkedServices.length; i++){
-                        service = {
-                            unit_price: checkedServices[i].price,
-                            service: checkedServices[i].id,
-                            invoice: invoiceId
-                        }
-                        console.info("service")
-                        services.push(service);
+                let services = []
+                let service = {}
+                for (let i = 0; i < checkedServices.length; i++){
+                    service = {
+                        unit_price: checkedServices[i].price,
+                        service: checkedServices[i].id
                     }
-                    let res2 = await API.post(endpoints['book_service'], {
+                    console.info("service")
+                    services.push(service);
+                }
+
+                try {
+                    let res = await API.post(endpoints['book_party'], {
+                        "party_name": partyName,
+                        "table_quantity": tableQuantity,
+                        "rental_date": startDate,
+                        "lobby_price": price,
+                        "session": session,
+                        "totalBill": bill,
+                        "wedding_lobby": lobbyId,
+                        "payment_method": paymentId,
+                        "foods": foods,
+                        "drinks": drinks,
                         "services": services
                     }, {
                         headers: {
                             "Authorization": `Bearer ${cookies.load("access_token")}`
                         }
                     })
-
-                    console.info("service")
-                    console.info(res2.data)
-                } catch (err) {
-                    console.error(err)
-                }
-            }
-
-            let party = async () => {
-                const formData = new FormData()
-                formData.append("party_name", partyName)
-                formData.append("table_quantity", tableQuantity)
-                formData.append("rental_date", startDate)
-                formData.append("lobby_price", price)
-                formData.append("session", session)
-                formData.append("totalBill", bill)
-                formData.append("wedding_lobby", lobbyId)
-                formData.append("payment_method", paymentId)
-
-                try {
-                    let res = await API.post(endpoints['book_party'], formData, {
-                        headers: {
-                            "Authorization": `Bearer ${cookies.load("access_token")}`
-                        }
-                    })
-                    await bookFood()
-                    await bookDrink()
-                    await bookService()
                     console.info(res.data)
                     window.alert("Chúc mừng, bạn đã đặt tiệc thành công!")
                 } catch (err) {
@@ -671,6 +615,12 @@ export default function BookParty () {
                                                 </Button>
                                             </Modal.Footer>
                                         </Modal>
+                                    </Col>
+                                </Row>
+                                <Row style={style}>
+                                    <Col md={3} xs={12}><Label><b>Tổng tiền</b></Label></Col>
+                                    <Col md={9} xs={12}>
+                                        {(lobbyId > 0 && session > 0) ? (total() + lobbyPrice.filter(p => p.wedding_lobby === lobbyId && p.time === session && p.is_weekend === checkedWeekend(startDate))[0].price) : 0} VNĐ
                                     </Col>
                                 </Row>
                                 <Row style={style}>
