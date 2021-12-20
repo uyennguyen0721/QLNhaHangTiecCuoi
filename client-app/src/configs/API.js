@@ -3,6 +3,7 @@ import axios from "axios";
 export let endpoints = {
     'wedding_lobbies': '/wedding_lobbies/',
     'wedding_lobbies-detail': (lobbyId) => `/wedding_lobbies/${lobbyId}/`,
+    'wedding_lobby_price': '/wedding_lobby_price/',
     'menu_drinks' : '/menu_drinks/',
     'food_type' : '/food_type/',
     'food_type_foods': (food_typeId) =>  `/food_type/${food_typeId}/foods/`,
@@ -20,7 +21,13 @@ export let endpoints = {
     "rating": "/rating/",
     "update_rating": (ratingId) => `/rating/${ratingId}/`,
     "add_comment": "/feedback/add_feedback/",
-    "comments": "/feedback/"
+    "comments": "/feedback/",
+    "payment_method": "/payment_method/",
+    "invoice": "/party/",
+    "book_party": "/party/book_party/",
+    // "book_food": "/party/book_foods/",
+    // "book_drink": "/party/book_drinks",
+    // "book_service": "/party/book_services"
 }
 
 export default axios.create({
