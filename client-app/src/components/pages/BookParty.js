@@ -63,7 +63,7 @@ export default function BookParty () {
     const options = [
         { value: 1, label: 'Buổi sáng' },
         { value: 2, label: 'Buổi trưa' },
-        { value: 3, label: 'Buổi chiều' }
+        { value: 3, label: 'Buổi tối' }
     ]
 
     const options1 = [

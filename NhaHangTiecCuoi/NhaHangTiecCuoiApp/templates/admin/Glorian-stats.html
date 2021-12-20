@@ -1,10 +1,143 @@
 {% extends 'admin/base_site.html' %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Glorian Admin') }}{% endblock %}
+
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('GLORIAN RESTAURANT') }}</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+<!-- Override extrahead to add Chart.js -->
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+  // Sample data
+  const chartData = [
+    {"date": "2019-01-08T00:00:00Z", "y": 300000000},
+    {"date": "2019-02-07T00:00:00Z", "y": 100000000},
+    {"date": "2019-03-06T00:00:00Z", "y": 150000000},
+    {"date": "2019-04-05T00:00:00Z", "y": 400000000},
+    {"date": "2019-05-03T00:00:00Z", "y": 200000000},
+    {"date": "2019-06-04T00:00:00Z", "y": 110000000},
+    {"date": "2019-07-02T00:00:00Z", "y": 300000000},
+    {"date": "2019-08-01T00:00:00Z", "y": 200000000},
+    {"date": "2019-09-07T00:00:00Z", "y": 100000000},
+    {"date": "2019-10-06T00:00:00Z", "y": 150000000},
+    {"date": "2019-11-05T00:00:00Z", "y": 400000000},
+    {"date": "2019-12-03T00:00:00Z", "y": 200000000}
+  ];
+
+  // Parse the dates to JS
+  chartData.forEach((d) => {
+    d.x = new Date(d.date);
+  });
+
+  // Render the chart
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      datasets: [
+        {
+          label: 'Doanh thu',
+          data: chartData,
+          backgroundColor: 'rgba(220,20,20,0.5)',
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        xAxes: [
+          {
+            type: 'time',
+            time: {
+              unit: 'month',
+              round: 'month',
+              displayFormats: {
+                month: 'MMM',
+              },
+            },
+          },
+        ],
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+});
+</script>
+
+{% endblock %}
+
 {% block content %}
-<h1>BÁO CÁO THỐNG KÊ</h1>
-<h2>Số lượng thức uống: {{ food_count }}</h2>
-<ul>
-    {% for c in food_stats %}
-    <li><strong>{{ c.name }}</strong> có {{ c.food_count }} món ăn </li>
-    {% endfor %}
-</ul>
+<div style="text-align: center; margin-top: 2%; margin-bottom: 2%">
+    <h1 class="text-info"><b>THỐNG KÊ GLORIAN RESTAURANT</b></h1>
+</div>
+
+<div style="margin: 0 10%">
+    <form action="" method="POST" role="form" class="admin-form" enctype="multipart/form-data">
+        <div style="float:left; margin-right: 5%">
+            <p>Chọn tháng báo cáo:</p>
+            <select class="form-control" data-role="select2" id="khachhang" name="thang" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+        </div>
+        <div style="padding-left : 20px; float:left; margin-right: 5%">
+            <p>Chọn năm:</p>
+            <select class="form-control" data-role="select2" name="nam" required>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="submit"
+                   value="Báo Cáo"
+                   class="btn btn-danger" />
+        </div>
+    </form>
+    <div style="margin-top: 5%">
+        <div class="card-body text-center">
+            <div style="text-align: center">
+                <h1>Biểu đồ báo cáo doanh thu</h1>
+            </div>
+        </div>
+        <!-- Render our chart -->
+        <div style="width: 100%;">
+          <canvas style="margin-bottom: 30px; width: 60%; height: 50%;" id="myChart"></canvas>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Render the rest of the ChangeList view -->
+{{ block.super }}
 {% endblock %}
