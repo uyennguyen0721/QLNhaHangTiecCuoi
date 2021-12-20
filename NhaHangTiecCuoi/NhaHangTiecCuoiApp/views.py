@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render
+import dateutil.parser as parser
 
 # Create your views here.
 # from oauth2_provider.contrib.rest_framework import permissions
@@ -68,8 +69,8 @@ class WeddingLobbyViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
         return lobbies
 
 
-class WeddingLobbyPriceViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
-    # queryset = WeddingLobby.objects.all()
+class WeddingLobbyPriceViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = WeddingLobbyPrice.objects.all()
     serializer_class = WeddingLobbyPriceSerializer
 
     def get_queryset(self):
@@ -221,7 +222,85 @@ class RatingViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPI
         return Response(status=status.HTTP_403_FORBIDDEN)
 
 
-# API Authorization
+# API Book a party
+
+class InvoiceViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = Invoice.objects.order_by('-id').all()
+    serializer_class = InvoiceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(methods=['post'], detail=False, url_path="book_party")
+    def book_party(self, request):
+        party_name = request.data.get('party_name')
+        table_quantity = request.data.get('table_quantity')
+        rental_date = request.data.get('rental_date')
+        lobby_price = request.data.get('lobby_price')
+        session = request.data.get('session')
+        total_bill = request.data.get('totalBill')
+        wedding_lobby = request.data.get('wedding_lobby')
+        payment_method = request.data.get('payment_method')
+        date = parser.parse(rental_date, fuzzy=True)
+        foods = request.data.get("foods")
+        drinks = request.data.get("drinks")
+        services = request.data.get("services")
+        try:
+            payment = PaymentMethod.objects.get(id=payment_method)
+        except PaymentMethod.DoesNotExist:
+            return Response(data='Payment method does not exist', status=status.HTTP_400_BAD_REQUEST)
+        try:
+            lobby = WeddingLobby.objects.get(id=wedding_lobby)
+        except WeddingLobby.DoesNotExist:
+            return Response(data='Lobby does not exist', status=status.HTTP_400_BAD_REQUEST)
+
+        if party_name and table_quantity and rental_date and rental_date and lobby_price \
+                and session and total_bill and wedding_lobby and payment_method and foods:
+            f = Invoice.objects.create(party_name=party_name,
+                                       table_quantity=table_quantity,
+                                       rental_date=date,
+                                       lobby_price=lobby_price,
+                                       totalBill=total_bill,
+                                       session=session,
+                                       wedding_lobby=lobby,
+                                       payment_method=payment,
+                                       user=request.user)
+            invoice = Invoice.objects.order_by('-id').first()
+            for food in foods:
+                menu_food = MenuFood.objects.get(id=food['menu_food'])
+                # invoice = Invoice.objects.get(id=food['invoice'])
+                FoodBillDetail.objects.create(unit_price=food['unit_price'],
+                                              menu_food=menu_food,
+                                              invoice=invoice)
+
+            for drink in drinks:
+                menu_drink = MenuDrink.objects.get(id=drink['menu_drink'])
+                # invoice = Invoice.objects.get(id=drink['invoice'])
+                DrinkBillDetail.objects.create(unit_price=drink['unit_price'],
+                                               quantity=drink['quantity'],
+                                               unit=drink['unit'],
+                                               menu_drink=menu_drink,
+                                               invoice=invoice)
+
+            for item in services:
+                service = Service.objects.get(id=item['service'])
+                # invoice = Invoice.objects.get(id=service['invoice'])
+                ServiceBillDetail.objects.create(unit_price=item['unit_price'],
+                                                 service=service,
+                                                 invoice=invoice)
+
+            return Response(InvoiceSerializer(f, context={"request": request}).data,
+                            status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# API Payment Method
+
+class PaymentMethodViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = PaymentMethod.objects.order_by('id').all()
+    serializer_class = PaymentMethodSerializer
+
+
+# get AuthInfo information
 class AuthInfo(APIView):
     def get(self, request):
         return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)
