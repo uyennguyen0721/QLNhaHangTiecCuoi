@@ -28,5 +28,6 @@ urlpatterns = [
     path('admin/', admin_site.urls),
     path('', include(router.urls)),
     path('oauth2-info/', views.AuthInfo.as_view()),
-    #path('', views.index, name="index"),
+
+    # path('', views.index, name="index"),
 ]
